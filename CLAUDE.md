@@ -1,8 +1,10 @@
-# CLAUDE.md — Odoo Native (App Android Kotlin pour Odoo 18 Community)
+# CLAUDE.md — Chapeau Blanc Manager (App Android Kotlin pour Odoo 18 Community)
 
 ## Architecture
 
-- **Langage**: Kotlin 2.0 + Jetpack Compose + Material 3
+- **Nom**: Chapeau Blanc Manager
+- **Language**: Kotlin 2.0 + Jetpack Compose + Material 3
+- **Package**: `com.chapeaublanc.manager`
 - **DI**: Hilt
 - **Async**: Coroutines + Flow
 - **Réseau**: Retrofit + Moshi + JSON-RPC (pas REST)
@@ -26,7 +28,7 @@ La couche réseau est dans `core/network/`:
 ## Structure des dossiers
 
 ```
-com.emage.odoo/
+com.chapeaublanc.manager/
 ├── OdooApplication.kt
 ├── MainActivity.kt
 ├── core/

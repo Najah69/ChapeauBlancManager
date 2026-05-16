@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OdooNative"
+rootProject.name = "ChapeauBlancManager"
 include(":app")

@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.emage.odoo"
+    namespace = "com.chapeaublanc.manager"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.emage.odoo"
+        applicationId = "com.chapeaublanc.manager"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Odoo</string>
+    <string name="app_name">Chapeau Blanc Manager</string>
     <string name="login_title">Connexion Odoo</string>
     <string name="url_label">URL Odoo</string>
     <string name="url_hint">https://votre-instance.odoo.fr</string>
