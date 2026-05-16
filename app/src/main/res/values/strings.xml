@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Odoo</string>
+    <string name="login_title">Connexion Odoo</string>
+    <string name="url_label">URL Odoo</string>
+    <string name="url_hint">https://votre-instance.odoo.fr</string>
+    <string name="email_label">Email</string>
+    <string name="email_hint">admin@exemple.fr</string>
+    <string name="password_label">Mot de passe</string>
+    <string name="login_button">Se connecter</string>
+    <string name="select_database">Sélectionner la base de données</string>
+    <string name="select_company">Choisir la société</string>
+    <string name="switch_company">Changer de société</string>
+    <string name="holding_view">Vue Holding</string>
+    <string name="no_companies">Aucune société accessible</string>
+    <string name="error_auth">Échec d\'authentification</string>
+    <string name="error_network">Erreur réseau</string>
+    <string name="error_unknown">Erreur inconnue</string>
+</resources>
