@@ -1,6 +1,7 @@
 package com.chapeaublanc.manager.core.jsonrpc
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -11,7 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class JsonRPC(private val baseUrl: String, private val httpClient: OkHttpClient) {
 
-    private val moshi: Moshi = Moshi.Builder().build()
+    private val moshi: Moshi = Moshi.Builder()
+        .addLast(KotlinJsonAdapterFactory())
+        .build()
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
     private val idCounter = AtomicInteger(0)
 
