@@ -1,6 +1,11 @@
 package com.chapeaublanc.manager.data.repository
 
 import com.chapeaublanc.manager.core.auth.SessionManager
+import com.chapeaublanc.manager.core.jsonrpc.safeBoolOr
+import com.chapeaublanc.manager.core.jsonrpc.safeInt
+import com.chapeaublanc.manager.core.jsonrpc.safeIntOr
+import com.chapeaublanc.manager.core.jsonrpc.safeString
+import com.chapeaublanc.manager.core.jsonrpc.safeStringOr
 import com.chapeaublanc.manager.core.network.JsonRPCProvider
 import com.chapeaublanc.manager.core.network.OdooApiService
 import com.chapeaublanc.manager.domain.model.AppMenuItem
@@ -41,7 +46,7 @@ class OdooRepository @Inject constructor(
             listOf("name", "login", "company_id", "company_ids"), emptyMap())
         val user = userData.firstOrNull() ?: throw Exception("User not found")
 
-        val ids = (user["company_ids"] as? List<*>)?.mapNotNull { it as? Int } ?: emptyList()
+        val ids = (user["company_ids"] as? List<*>)?.mapNotNull { it.safeInt() } ?: emptyList()
         companyIds = ids
         sessionManager.saveCompanyIds(ids)
 
@@ -49,26 +54,26 @@ class OdooRepository @Inject constructor(
             api.read("res.company", ids, listOf("name", "parent_id"), companyCtx).map {
                 val pid = it["parent_id"]
                 Company(
-                    id = (it["id"] as? Int) ?: 0,
-                    name = (it["name"] as? String) ?: "Unknown",
+                    id = it["id"].safeIntOr(0),
+                    name = it["name"].safeStringOr("Unknown"),
                     isParent = when (pid) {
                         is Boolean -> !pid
-                        is Int -> pid == 0
-                        null -> (it["id"] as? Int) == 4
-                        else -> (it["id"] as? Int) == 4
+                        is Number -> pid.toInt() == 0
+                        null -> it["id"].safeIntOr(0) == 4
+                        else -> it["id"].safeIntOr(0) == 4
                     }
                 )
             }
         } else emptyList()
 
-        val defaultCompanyId = (user["company_id"] as? List<*>)?.firstOrNull() as? Int ?: 0
+        val defaultCompanyId = (user["company_id"] as? List<*>)?.firstOrNull().safeIntOr(0)
         val defaultCompany = companies.find { it.id == defaultCompanyId }
             ?: companies.firstOrNull()
             ?: Company(0, "")
 
         return UserProfile(
             id = session.uid,
-            name = (user["name"] as? String) ?: username,
+            name = user["name"].safeStringOr(username),
             login = username,
             sessionId = session.session_id ?: "",
             companies = companies,
@@ -76,7 +81,6 @@ class OdooRepository @Inject constructor(
         )
     }
 
-    /** Restore provider state and company IDs from persisted session on app start. */
     suspend fun restoreSession() {
         val session = sessionManager.session.first()
         if (!session.isAuthenticated) return
@@ -92,13 +96,13 @@ class OdooRepository @Inject constructor(
         return api.read("res.company", companyIds, listOf("name", "parent_id"), companyCtx).map {
             val pid = it["parent_id"]
             Company(
-                id = (it["id"] as? Int) ?: 0,
-                name = (it["name"] as? String) ?: "Unknown",
+                id = it["id"].safeIntOr(0),
+                name = it["name"].safeStringOr("Unknown"),
                 isParent = when (pid) {
                     is Boolean -> !pid
-                    is Int -> pid == 0
-                    null -> (it["id"] as? Int) == 4
-                    else -> (it["id"] as? Int) == 4
+                    is Number -> pid.toInt() == 0
+                    null -> it["id"].safeIntOr(0) == 4
+                    else -> it["id"].safeIntOr(0) == 4
                 }
             )
         }
@@ -113,10 +117,10 @@ class OdooRepository @Inject constructor(
         return (raw["records"] as? List<*>)?.mapNotNull { r ->
             val m = r as? Map<*, *> ?: return@mapNotNull null
             AppMenuItem(
-                id = (m["id"] as? Int) ?: 0,
-                name = (m["name"] as? String) ?: "",
-                sequence = (m["sequence"] as? Int) ?: 0,
-                action = (m["action"] as? String) ?: ""
+                id = m["id"].safeIntOr(0),
+                name = m["name"].safeStringOr(""),
+                sequence = m["sequence"].safeIntOr(0),
+                action = m["action"].safeStringOr("")
             )
         } ?: emptyList()
     }
@@ -130,18 +134,18 @@ class OdooRepository @Inject constructor(
         return (raw["records"] as? List<*>)?.mapNotNull { r ->
             val m = r as? Map<*, *> ?: return@mapNotNull null
             AppMenuItem(
-                id = (m["id"] as? Int) ?: 0,
-                name = (m["name"] as? String) ?: "",
-                parentId = (m["parent_id"] as? List<*>)?.firstOrNull() as? Int ?: 0,
-                sequence = (m["sequence"] as? Int) ?: 0,
-                action = (m["action"] as? String) ?: ""
+                id = m["id"].safeIntOr(0),
+                name = m["name"].safeStringOr(""),
+                parentId = (m["parent_id"] as? List<*>)?.firstOrNull().safeIntOr(0),
+                sequence = m["sequence"].safeIntOr(0),
+                action = m["action"].safeStringOr("")
             )
         }?.sortedBy { it.sequence } ?: emptyList()
     }
 
     suspend fun resolveModelForAction(actionId: Int): String? {
         val raw = api.read("ir.actions.act_window", listOf(actionId), listOf("res_model"), companyCtx)
-        return raw.firstOrNull()?.get("res_model") as? String
+        return raw.firstOrNull()?.get("res_model")?.safeString()
     }
 
     suspend fun searchModel(
@@ -154,7 +158,7 @@ class OdooRepository @Inject constructor(
     ): SearchResult {
         val raw = api.searchRead(model, domain, fields, offset, limit, order, companyCtx)
         val records = (raw["records"] as? List<*>)?.mapNotNull { it as? Map<String, Any?> } ?: emptyList()
-        val total = (raw["length"] as? Int) ?: records.size
+        val total = raw["length"].safeIntOr(records.size)
         return SearchResult(records, total, offset)
     }
 
@@ -175,14 +179,14 @@ class OdooRepository @Inject constructor(
         return raw.map { (name, data) ->
             FieldMeta(
                 name = name,
-                label = (data["string"] as? String) ?: name,
-                type = (data["type"] as? String) ?: "char",
-                required = (data["required"] as? Boolean) ?: false,
-                readonly = (data["readonly"] as? Boolean) ?: false,
-                relation = (data["relation"] as? String) ?: "",
+                label = data["string"].safeStringOr(name),
+                type = data["type"].safeStringOr("char"),
+                required = data["required"].safeBoolOr(false),
+                readonly = data["readonly"].safeBoolOr(false),
+                relation = data["relation"].safeStringOr(""),
                 options = ((data["selection"] as? List<*>)?.map {
                     val pair = it as? List<*> ?: return@map ("" to "")
-                    (pair.getOrNull(0) as? String).orEmpty() to (pair.getOrNull(1) as? String).orEmpty()
+                    (pair.getOrNull(0).safeStringOr("")) to (pair.getOrNull(1).safeStringOr(""))
                 } ?: emptyList())
             )
         }.toList()

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.chapeaublanc.manager.core.jsonrpc.safeIntOr
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,7 +91,7 @@ fun GenericListScreen(
                 }
 
                 items(state.records) { record ->
-                    val id = (record["id"] as? Int) ?: 0
+                    val id = record["id"].safeIntOr(0)
                     val displayName = record["display_name"]?.toString()
                         ?: record["name"]?.toString()
                         ?: record["x_name"]?.toString()

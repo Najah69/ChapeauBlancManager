@@ -15,6 +15,7 @@ class JsonRPC(private val baseUrl: String, private val httpClient: OkHttpClient)
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
     private val idCounter = AtomicInteger(0)
 
+    @Suppress("UNCHECKED_CAST")
     suspend fun <T> call(
         service: String,
         method: String,
@@ -62,8 +63,20 @@ class JsonRPC(private val baseUrl: String, private val httpClient: OkHttpClient)
 
         val result = responseMap["result"] ?: throw OdooRpcException("No result in response")
 
-        @Suppress("UNCHECKED_CAST")
-        result as T
+        when {
+            resultType == Map::class.java -> result as T
+            resultType == List::class.java -> result as T
+            resultType == Int::class.java -> (result as Number).toInt() as T
+            resultType == Boolean::class.java -> result as T
+            resultType == String::class.java -> result as T
+            resultType == Double::class.java -> (result as Number).toDouble() as T
+            resultType == Long::class.java -> (result as Number).toLong() as T
+            else -> {
+                val adapter = moshi.adapter(resultType)
+                adapter.fromJsonValue(result) as T
+                    ?: throw OdooRpcException("Failed to parse result as ${resultType.simpleName}")
+            }
+        }
     }
 }
 
