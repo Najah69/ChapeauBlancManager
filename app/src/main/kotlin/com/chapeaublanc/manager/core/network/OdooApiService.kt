@@ -62,7 +62,6 @@ class OdooApiService @Inject constructor(
     ): Map<String, Any?> {
         val kwargs = mapOf(
             "context" to context,
-            "domain" to domain,
             "fields" to fields,
             "offset" to offset,
             "limit" to limit,
