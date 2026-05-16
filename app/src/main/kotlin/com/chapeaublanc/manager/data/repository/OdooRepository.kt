@@ -38,11 +38,10 @@ class OdooRepository @Inject constructor(
         rpc.baseUrl = url
         rpc.db = dbName
         rpc.password = password
-        val session = api.authenticate(dbName, username, password)
-        rpc.uid = session.uid
-        rpc.sessionId = session.session_id
+        val uid = api.authenticate(dbName, username, password)
+        rpc.uid = uid
 
-        val userData = api.read("res.users", listOf(session.uid),
+        val userData = api.read("res.users", listOf(uid),
             listOf("name", "login", "company_id", "company_ids"), emptyMap())
         val user = userData.firstOrNull() ?: throw Exception("User not found")
 
@@ -72,10 +71,10 @@ class OdooRepository @Inject constructor(
             ?: Company(0, "")
 
         return UserProfile(
-            id = session.uid,
+            id = uid,
             name = user["name"].safeStringOr(username),
             login = username,
-            sessionId = session.session_id ?: "",
+            sessionId = "",
             companies = companies,
             defaultCompany = defaultCompany
         )

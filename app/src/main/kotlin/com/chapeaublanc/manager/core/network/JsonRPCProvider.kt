@@ -50,5 +50,5 @@ class JsonRPCProvider @Inject constructor() {
         password = null
     }
 
-    fun isAuthenticated(): Boolean = uid != null && db != null && sessionId != null
+    fun isAuthenticated(): Boolean = uid != null && db != null
 }

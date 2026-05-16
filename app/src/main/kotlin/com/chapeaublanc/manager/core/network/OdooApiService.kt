@@ -2,7 +2,6 @@ package com.chapeaublanc.manager.core.network
 
 import com.chapeaublanc.manager.core.jsonrpc.JsonRPC
 import com.chapeaublanc.manager.core.jsonrpc.OdooRpcException
-import com.chapeaublanc.manager.core.jsonrpc.OdooSession
 import com.chapeaublanc.manager.core.jsonrpc.OdooVersion
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,18 +13,18 @@ class OdooApiService @Inject constructor(
 
     private val rpc: JsonRPC get() = rpcClientProvider.get()
 
-    /** Authenticate and get session. */
+    /** Authenticate and get user ID. */
     suspend fun authenticate(
         db: String,
         login: String,
         password: String
-    ): OdooSession {
+    ): Int {
         return rpc.call(
             service = "common",
             method = "authenticate",
             args = listOf(db, login, password, emptyMap<String, Any>()),
             kwargs = emptyMap(),
-            resultType = OdooSession::class.java
+            resultType = Int::class.java
         )
     }
 
