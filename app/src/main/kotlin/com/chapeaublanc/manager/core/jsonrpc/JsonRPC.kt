@@ -57,7 +57,7 @@ class JsonRPC(private val baseUrl: String, private val httpClient: OkHttpClient)
             val message = error?.get("data")?.let { (it as? Map<*, *>)?.get("name") ?: it.toString() }
                 ?: error?.get("message")?.toString()
                 ?: "RPC Error"
-            throw OdooRpcException(message)
+            throw OdooRpcException(message.toString())
         }
 
         val result = responseMap["result"] ?: throw OdooRpcException("No result in response")

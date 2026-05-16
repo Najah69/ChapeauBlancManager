@@ -3,7 +3,6 @@ package com.chapeaublanc.manager.ui.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chapeaublanc.manager.core.auth.SessionManager
-import com.chapeaublanc.manager.core.network.OdooApiService
 import com.chapeaublanc.manager.data.repository.OdooRepository
 import com.chapeaublanc.manager.domain.model.UserProfile
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +23,6 @@ data class LoginUiState(
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val api: OdooApiService,
     private val repo: OdooRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {
@@ -36,7 +34,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, error = null)
             try {
-                val dbs = api.listDatabases()
+                repo.setupUrl(url)
+                val dbs = repo.listDatabases()
                 _state.value = _state.value.copy(
                     isLoading = false,
                     databases = dbs
@@ -55,7 +54,7 @@ class LoginViewModel @Inject constructor(
             _state.value = _state.value.copy(isLoading = true, error = null)
             try {
                 val profile = repo.login(url, db, username, password)
-                sessionManager.saveAuth(url, db, username, "", profile.id)
+                sessionManager.saveAuth(url, db, username, profile.sessionId, profile.id)
                 _state.value = _state.value.copy(
                     isLoading = false,
                     isLoggedIn = true,

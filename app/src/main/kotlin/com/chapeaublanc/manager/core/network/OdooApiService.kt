@@ -194,7 +194,7 @@ class OdooApiService @Inject constructor(
                 rpcClientProvider.password ?: "",
                 model,
                 "fields_get",
-                emptyList(),
+                emptyList<Any>(),
                 mapOf("attributes" to attributes)
             ),
             kwargs = emptyMap(),

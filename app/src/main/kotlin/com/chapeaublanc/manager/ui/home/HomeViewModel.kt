@@ -32,8 +32,12 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
     init {
-        loadSession()
-        loadMenus()
+        viewModelScope.launch {
+            repo.restoreSession()
+            loadSession()
+            loadMenus()
+            loadCompanies()
+        }
     }
 
     private fun loadSession() {
@@ -42,6 +46,15 @@ class HomeViewModel @Inject constructor(
             _state.value = _state.value.copy(
                 currentCompany = session.currentCompany
             )
+        }
+    }
+
+    private fun loadCompanies() {
+        viewModelScope.launch {
+            try {
+                val companies = repo.fetchCompanies()
+                _state.value = _state.value.copy(companies = companies)
+            } catch (_: Exception) { }
         }
     }
 

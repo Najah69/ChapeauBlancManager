@@ -1,17 +1,15 @@
 package com.chapeaublanc.manager.ui.navigation
 
 import androidx.compose.runtime.*
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.chapeaublanc.manager.core.auth.SessionManager
+import com.chapeaublanc.manager.data.repository.OdooRepository
 import com.chapeaublanc.manager.domain.model.AppMenuItem
-import com.chapeaublanc.manager.domain.model.Company
-import com.chapeaublanc.manager.domain.model.UserProfile
-import com.chapeaublanc.manager.ui.auth.CompanyPickerScreen
 import com.chapeaublanc.manager.ui.auth.LoginScreen
 import com.chapeaublanc.manager.ui.generic.GenericFormScreen
 import com.chapeaublanc.manager.ui.generic.GenericListScreen
@@ -31,7 +29,8 @@ object Routes {
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
-    sessionManager: SessionManager
+    sessionManager: SessionManager,
+    repo: OdooRepository
 ) {
     NavHost(
         navController = navController,
@@ -48,9 +47,12 @@ fun AppNavGraph(
         }
 
         composable(Routes.HOME) {
+            val scope = rememberCoroutineScope()
             HomeScreen(
                 onMenuClick = { menu ->
-                    handleMenuClick(navController, menu)
+                    scope.launch {
+                        handleMenuClick(navController, repo, menu)
+                    }
                 }
             )
         }
@@ -85,27 +87,18 @@ fun AppNavGraph(
     }
 }
 
-private fun handleMenuClick(navController: NavHostController, menu: AppMenuItem) {
+private suspend fun handleMenuClick(
+    navController: NavHostController,
+    repo: OdooRepository,
+    menu: AppMenuItem
+) {
     when {
         menu.action.contains(",") -> {
-            // Action is like "ir.actions.act_window,123"
             val actionId = menu.action.split(",").getOrNull(1)?.trim()?.toIntOrNull()
             if (actionId != null) {
-                // Navigate to a sub-menu resolution screen or directly to model
-                // For now, go to generic list with menu info
-                val modelHint = when {
-                    menu.name.contains("CRM", ignoreCase = true) -> "crm.lead"
-                    menu.name.contains("Vente", ignoreCase = true) -> "sale.order"
-                    menu.name.contains("Factur", ignoreCase = true) -> "account.move"
-                    menu.name.contains("Contact", ignoreCase = true) -> "res.partner"
-                    menu.name.contains("Stock", ignoreCase = true) -> "stock.picking"
-                    menu.name.contains("Projet", ignoreCase = true) -> "project.project"
-                    menu.name.contains("Tâche", ignoreCase = true) -> "project.task"
-                    menu.name.contains("Photo", ignoreCase = true) -> "photo.photo"
-                    menu.name.contains("Particip", ignoreCase = true) -> "photo.participant"
-                    else -> "ir.ui.menu"
-                }
-                navController.navigate(Routes.list(modelHint, menu.name))
+                val modelName = repo.resolveModelForAction(actionId)
+                    ?: modelHintFromMenuName(menu.name)
+                navController.navigate(Routes.list(modelName, menu.name))
             }
         }
 
@@ -114,8 +107,20 @@ private fun handleMenuClick(navController: NavHostController, menu: AppMenuItem)
         }
 
         else -> {
-            // Generic fallback — navigate by menu name
             navController.navigate(Routes.list("ir.ui.menu", menu.name))
         }
     }
+}
+
+private fun modelHintFromMenuName(name: String): String = when {
+    name.contains("CRM", ignoreCase = true) -> "crm.lead"
+    name.contains("Vente", ignoreCase = true) -> "sale.order"
+    name.contains("Factur", ignoreCase = true) -> "account.move"
+    name.contains("Contact", ignoreCase = true) -> "res.partner"
+    name.contains("Stock", ignoreCase = true) -> "stock.picking"
+    name.contains("Projet", ignoreCase = true) -> "project.project"
+    name.contains("Tâche", ignoreCase = true) -> "project.task"
+    name.contains("Photo", ignoreCase = true) -> "photo.photo"
+    name.contains("Particip", ignoreCase = true) -> "photo.participant"
+    else -> "ir.ui.menu"
 }

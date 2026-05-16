@@ -32,7 +32,7 @@ class GenericFormViewModel @Inject constructor(
 
     private val modelName: String = savedStateHandle["model"] ?: ""
     private val modelLabel: String = savedStateHandle["label"] ?: modelName
-    private val recordId: Int = savedStateHandle["id"]?.toIntOrNull() ?: 0
+    private val recordId: Int = (savedStateHandle.get<String>("id"))?.toIntOrNull() ?: 0
 
     private val _state = MutableStateFlow(GenericFormUiState())
     val state: StateFlow<GenericFormUiState> = _state.asStateFlow()
@@ -78,13 +78,14 @@ class GenericFormViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isSaving = true, error = null)
             try {
-                val values = _state.value.values.filterKeys { it != "id" }
+                val values: Map<String, Any> = _state.value.values
+                    .filterKeys { it != "id" }
                     .mapValues { (_, v) -> v ?: false }
 
                 if (recordId > 0) {
-                    repo.writeRecord(modelName, recordId, values as Map<String, Any>)
+                    repo.writeRecord(modelName, recordId, values)
                 } else {
-                    repo.createRecord(modelName, values as Map<String, Any>)
+                    repo.createRecord(modelName, values)
                 }
                 _state.value = _state.value.copy(isSaving = false, isSaved = true)
             } catch (e: Exception) {

@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.chapeaublanc.manager.core.auth.SessionManager
+import com.chapeaublanc.manager.data.repository.OdooRepository
 import com.chapeaublanc.manager.ui.navigation.AppNavGraph
 import com.chapeaublanc.manager.ui.theme.OdooNativeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +22,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    @Inject
+    lateinit var repo: OdooRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -37,7 +41,8 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     AppNavGraph(
                         navController = navController,
-                        sessionManager = sessionManager
+                        sessionManager = sessionManager,
+                        repo = repo
                     )
                 }
             }

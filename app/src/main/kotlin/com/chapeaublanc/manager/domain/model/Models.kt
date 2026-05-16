@@ -10,6 +10,7 @@ data class UserProfile(
     val id: Int,
     val name: String,
     val login: String,
+    val sessionId: String = "",
     val companies: List<Company> = emptyList(),
     val defaultCompany: Company = Company(0, "")
 )

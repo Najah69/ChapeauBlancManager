@@ -1,5 +1,6 @@
 package com.chapeaublanc.manager.data.repository
 
+import com.chapeaublanc.manager.core.auth.SessionManager
 import com.chapeaublanc.manager.core.network.JsonRPCProvider
 import com.chapeaublanc.manager.core.network.OdooApiService
 import com.chapeaublanc.manager.domain.model.AppMenuItem
@@ -7,17 +8,26 @@ import com.chapeaublanc.manager.domain.model.Company
 import com.chapeaublanc.manager.domain.model.FieldMeta
 import com.chapeaublanc.manager.domain.model.SearchResult
 import com.chapeaublanc.manager.domain.model.UserProfile
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class OdooRepository @Inject constructor(
     private val api: OdooApiService,
-    private val rpc: JsonRPCProvider
+    private val rpc: JsonRPCProvider,
+    private val sessionManager: SessionManager
 ) {
+    private var companyIds: List<Int> = emptyList()
 
     private val companyCtx: Map<String, Any>
-        get() = mapOf("allowed_company_ids" to listOf(rpc.uid ?: 0))
+        get() = mapOf("allowed_company_ids" to companyIds)
+
+    fun setupUrl(url: String) {
+        rpc.baseUrl = url
+    }
+
+    suspend fun listDatabases(): List<String> = api.listDatabases()
 
     suspend fun login(url: String, dbName: String, username: String, password: String): UserProfile {
         rpc.baseUrl = url
@@ -28,30 +38,70 @@ class OdooRepository @Inject constructor(
         rpc.sessionId = session.session_id
 
         val userData = api.read("res.users", listOf(session.uid),
-            listOf("name", "login", "company_id", "company_ids"), companyCtx)
+            listOf("name", "login", "company_id", "company_ids"), emptyMap())
         val user = userData.firstOrNull() ?: throw Exception("User not found")
 
-        val companyIds = (user["company_ids"] as? List<*>)?.mapNotNull { (it as? Int) } ?: emptyList()
-        val companies = if (companyIds.isNotEmpty()) {
-            api.read("res.company", companyIds, listOf("name"), companyCtx).map {
+        val ids = (user["company_ids"] as? List<*>)?.mapNotNull { it as? Int } ?: emptyList()
+        companyIds = ids
+        sessionManager.saveCompanyIds(ids)
+
+        val companies = if (ids.isNotEmpty()) {
+            api.read("res.company", ids, listOf("name", "parent_id"), companyCtx).map {
+                val pid = it["parent_id"]
                 Company(
                     id = (it["id"] as? Int) ?: 0,
                     name = (it["name"] as? String) ?: "Unknown",
-                    isParent = (it["id"] as? Int) == 4
+                    isParent = when (pid) {
+                        is Boolean -> !pid
+                        is Int -> pid == 0
+                        null -> (it["id"] as? Int) == 4
+                        else -> (it["id"] as? Int) == 4
+                    }
                 )
             }
         } else emptyList()
 
         val defaultCompanyId = (user["company_id"] as? List<*>)?.firstOrNull() as? Int ?: 0
-        val defaultCompany = companies.find { it.id == defaultCompanyId } ?: companies.firstOrNull() ?: Company(0, "")
+        val defaultCompany = companies.find { it.id == defaultCompanyId }
+            ?: companies.firstOrNull()
+            ?: Company(0, "")
 
         return UserProfile(
             id = session.uid,
             name = (user["name"] as? String) ?: username,
             login = username,
+            sessionId = session.session_id ?: "",
             companies = companies,
             defaultCompany = defaultCompany
         )
+    }
+
+    /** Restore provider state and company IDs from persisted session on app start. */
+    suspend fun restoreSession() {
+        val session = sessionManager.session.first()
+        if (!session.isAuthenticated) return
+        rpc.baseUrl = session.url
+        rpc.db = session.db
+        rpc.sessionId = session.sessionId
+        rpc.uid = session.uid
+        companyIds = session.companyIds
+    }
+
+    suspend fun fetchCompanies(): List<Company> {
+        if (companyIds.isEmpty()) return emptyList()
+        return api.read("res.company", companyIds, listOf("name", "parent_id"), companyCtx).map {
+            val pid = it["parent_id"]
+            Company(
+                id = (it["id"] as? Int) ?: 0,
+                name = (it["name"] as? String) ?: "Unknown",
+                isParent = when (pid) {
+                    is Boolean -> !pid
+                    is Int -> pid == 0
+                    null -> (it["id"] as? Int) == 4
+                    else -> (it["id"] as? Int) == 4
+                }
+            )
+        }
     }
 
     suspend fun fetchMenus(): List<AppMenuItem> {
@@ -91,7 +141,7 @@ class OdooRepository @Inject constructor(
 
     suspend fun resolveModelForAction(actionId: Int): String? {
         val raw = api.read("ir.actions.act_window", listOf(actionId), listOf("res_model"), companyCtx)
-        return (raw.firstOrNull()?.get("res_model") as? String)
+        return raw.firstOrNull()?.get("res_model") as? String
     }
 
     suspend fun searchModel(
@@ -131,17 +181,10 @@ class OdooRepository @Inject constructor(
                 readonly = (data["readonly"] as? Boolean) ?: false,
                 relation = (data["relation"] as? String) ?: "",
                 options = ((data["selection"] as? List<*>)?.map {
-                    val pair = it as? List<*> ?: return@map listOf("", "")
+                    val pair = it as? List<*> ?: return@map ("" to "")
                     (pair.getOrNull(0) as? String).orEmpty() to (pair.getOrNull(1) as? String).orEmpty()
                 } ?: emptyList())
             )
         }.toList()
-    }
-
-    suspend fun getCompanyContext(companyId: Int): Map<String, Any> {
-        return mapOf(
-            "allowed_company_ids" to listOf(companyId),
-            "force_company" to companyId
-        )
     }
 }

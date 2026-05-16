@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Business
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.CorporateFare
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -137,7 +138,7 @@ private fun CompanyCard(
 
             if (isSelected) {
                 Icon(
-                    imageVector = Icons.Default.CorporateFare,
+                    imageVector = Icons.Default.CheckCircle,
                     contentDescription = "Sélectionné",
                     tint = MaterialTheme.colorScheme.primary
                 )

@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.chapeaublanc.manager.domain.model.Company
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -15,7 +16,7 @@ private val Context.dataStore by preferencesDataStore(name = "odoo_session")
 
 @Singleton
 class SessionManager @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private val KEY_URL = stringPreferencesKey("odoo_url")
@@ -25,6 +26,7 @@ class SessionManager @Inject constructor(
         private val KEY_UID = intPreferencesKey("uid")
         private val KEY_COMPANY_ID = intPreferencesKey("current_company_id")
         private val KEY_COMPANY_NAME = stringPreferencesKey("current_company_name")
+        private val KEY_COMPANY_IDS = stringPreferencesKey("company_ids")
     }
 
     data class Session(
@@ -34,6 +36,7 @@ class SessionManager @Inject constructor(
         val sessionId: String = "",
         val uid: Int = 0,
         val currentCompany: Company = Company(0, "Chapeau Blanc Group"),
+        val companyIds: List<Int> = emptyList(),
         val isAuthenticated: Boolean = false
     )
 
@@ -48,6 +51,7 @@ class SessionManager @Inject constructor(
                 id = prefs[KEY_COMPANY_ID] ?: 4,
                 name = prefs[KEY_COMPANY_NAME] ?: "Chapeau Blanc Group"
             ),
+            companyIds = prefs[KEY_COMPANY_IDS]?.split(",")?.mapNotNull { it.toIntOrNull() } ?: emptyList(),
             isAuthenticated = prefs[KEY_SESSION_ID] != null
         )
     }
@@ -59,6 +63,12 @@ class SessionManager @Inject constructor(
             prefs[KEY_LOGIN] = login
             prefs[KEY_SESSION_ID] = sessionId
             prefs[KEY_UID] = uid
+        }
+    }
+
+    suspend fun saveCompanyIds(ids: List<Int>) {
+        context.dataStore.edit { prefs ->
+            prefs[KEY_COMPANY_IDS] = ids.joinToString(",")
         }
     }
 
