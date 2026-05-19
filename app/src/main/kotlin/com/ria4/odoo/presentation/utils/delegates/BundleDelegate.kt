@@ -8,9 +8,7 @@ import java.io.Serializable
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-/**
- * Created by glovebx on 30.09.2017.
- */
+/** Kotlin property delegate and extension functions for type-safe Bundle argument access in Fragments. / Délégation de propriété Kotlin et fonctions d'extension pour un accès type-safe aux arguments Bundle dans les Fragments. */
 
 
 inline fun <reified VALUE> bundle() = object : ReadOnlyProperty<Fragment, VALUE> {

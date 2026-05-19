@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
-/**
- * Created by glovebx on 17.09.2017.
- */
+/** RecyclerView subclass designed for grid layouts, with commented-out layout animation support for staggered grid entrance effects. / Sous-classe de RecyclerView conçue pour les layouts en grille, avec support d'animation de layout commenté pour des effets d'entrée en grille décalée. */
 class GridRecyclerView (context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 //
 //    override fun attachLayoutAnimationParameters(child: View, params: ViewGroup.LayoutParams,

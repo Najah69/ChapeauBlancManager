@@ -14,7 +14,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Created by glovebx on 11.11.2019.
+ * User interactor — orchestrates authentication, logout, caching, and local user persistence across repository layers.
+ * Interacteur utilisateur — orchestre l'authentification, la deconnexion, le cache et la persistance locale de l'utilisateur a travers les couches de repository.
  */
 @PerActivity
 class UserInteractor @Inject constructor(private val commonDataRepository: CommonRepository
@@ -50,7 +51,7 @@ class UserInteractor @Inject constructor(private val commonDataRepository: Commo
         request.args[0] = db
         request.args[1] = userName
         request.args[2] = password
-        // 必须参数
+        // Required parameter / Parametre obligatoire
         request.args[3] = mapOf<String, String>()
         return userDataRepository.authenticate(request)
     }

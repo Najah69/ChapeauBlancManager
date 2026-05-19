@@ -10,9 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 
-/**
- * Created by glovebx on 28.08.2017.
- */
+/** Glide extension functions for loading images into ImageView with optional transformations (circle, rounded, none). / Fonctions d'extension Glide pour charger des images dans ImageView avec transformations optionnelles (cercle, arrondi, aucune). */
 private val DEFAULT_DURATION_MS = 200
 
 fun ImageView.load(url: String?) {

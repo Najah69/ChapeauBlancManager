@@ -3,9 +3,7 @@ package com.ria4.odoo.data.request
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Common service JSON-RPC request with db/uid/password prepended to args. / Requete JSON-RPC du service common avec db/uid/password prefixes aux args. */
 open class Common3RPCRequest(@SerializedName("method") @Expose val method: String
                              , @Transient val db: String
                              , @Transient val uid: String

@@ -7,13 +7,12 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
-/**
- * Created by glovebx on 06/01/18.
- */
+/** Room-backed User DAO repository — wraps UserDao with RxJava for local user persistence. / Depot DAO utilisateur avec Room — enveloppe UserDao avec RxJava pour la persistance locale de l'utilisateur. */
 class UserDatabaseRepository @Inject internal constructor(private val userDao: UserDao) : UserDaoRepository {
+    /** Loads current user via Single (throws on null, unlike Flowable which would silently skip). / Charge l'utilisateur courant via Single (leve une erreur sur null, contrairement a Flowable qui ignorerait). */
     override fun loadCurrentUser(): Single<User> {
-        // 为什么用Single，因为loadCurrentUser返回null时Single会抛出错误，而Flowable不会做后续处理
-        // just()方法无论如何都只会在当前线程里执行。所以即使看上去有异步的过程，但其实这是个同步的过程
+        // Single used because loadCurrentUser returns null → Single throws error, while Flowable would ignore / Single utilise car loadCurrentUser retourne null → Single leve une erreur, tandis que Flowable ignorerait
+        // just() always runs on the current thread, so even if it looks async it's synchronous / just() s'execute toujours sur le thread courant, donc meme si ca semble asynchrone c'est synchrone
         return Single.fromCallable<User> {  userDao.loadCurrentUser() }
     }
 
@@ -26,7 +25,7 @@ class UserDatabaseRepository @Inject internal constructor(private val userDao: U
     override fun insertUsers(users: List<User>): Observable<List<Long>> {
         return Observable.fromCallable {
             if (users.run { any { it.current } }) {
-                // 数据库中其他的current需要设置为false
+                // Mark other users' current=false in DB / Marquer les autres utilisateurs current=false dans la DB
                 userDao.deactivateCurrent()
             }
             userDao.insertAll(users)

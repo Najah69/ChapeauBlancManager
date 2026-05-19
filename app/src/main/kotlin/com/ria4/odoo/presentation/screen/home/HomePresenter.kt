@@ -15,7 +15,8 @@ import com.ria4.odoo.presentation.widget.navigation_view.NavigationId
 import javax.inject.Inject
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Home screen presenter — manages toolbar state (arc icon, title), drawer open/close transitions, fragment navigation, and logout.
+ * Presentateur de l'ecran d'accueil — gere l'etat de la toolbar (icone arc, titre), les transitions d'ouverture/fermeture du drawer, la navigation entre fragments et la deconnexion.
  */
 @PerActivity
 class HomePresenter @Inject constructor(private val userInteractor: UserInteractor)
@@ -28,6 +29,7 @@ class HomePresenter @Inject constructor(private val userInteractor: UserInteract
     private var state: NavigationState? = null
     private var currentNavigationSelectedItem = 0
 
+    /** Restores toolbar icon state and title, updates drawer user info on create. / Restaure l'etat de l'icone de la toolbar et le titre, met a jour les infos utilisateur du drawer a la creation. */
     @OnLifecycleEvent(value = Lifecycle.Event.ON_CREATE)
     fun onCreate() {
         if (isArcIcon || isDrawerOpened) {
@@ -41,6 +43,7 @@ class HomePresenter @Inject constructor(private val userInteractor: UserInteract
         }
     }
 
+    /** Initializes user from app instance and opens home fragment. / Initialise l'utilisateur depuis l'instance app et ouvre le fragment d'accueil. */
     override fun onPresenterCreate() {
         super.onPresenterCreate()
 //        fetch(userInteractor.getAuthenticatedUser()) {
@@ -52,11 +55,13 @@ class HomePresenter @Inject constructor(private val userInteractor: UserInteract
         view?.openHomeFragment()
     }
 
+    /** Clears user cache on destroy. / Vide le cache utilisateur a la destruction. */
     override fun onPresenterDestroy() {
         super.onPresenterDestroy()
         userInteractor.clearCache()
     }
 
+    /** Updates toolbar title and navigation item check on fragment change. / Met a jour le titre de la toolbar et coche l'element de navigation lors du changement de fragment. */
     override fun handleFragmentChanges(currentTag: String, fragment: Fragment) {
         val tag = if (fragment is BaseFragment<*, *>) {
             fragment.getTitle()
@@ -83,6 +88,8 @@ class HomePresenter @Inject constructor(private val userInteractor: UserInteract
         }
     }
 
+    /** Switches to arrow icon when drawer opens. / Passe en icone fleche quand le drawer s'ouvre. */
+    /** Switches to arrow icon when drawer opens. / Passe en icone fleche quand le drawer s'ouvre. */
     override fun handleDrawerOpen() {
         if (!isArcIcon)
             view?.setArcArrowState()
@@ -95,15 +102,18 @@ class HomePresenter @Inject constructor(private val userInteractor: UserInteract
         isDrawerOpened = false
     }
 
+    /** Logs out via interactor and navigates to login screen. / Deconnecte via l'interactor et navigue vers l'ecran de connexion. */
     override fun logOut() {
         userInteractor.logOut()
         view?.openLoginActivity()
     }
 
+    /** Stores navigator state in memory. / Stocke l'etat du navigateur en memoire. */
     override fun saveNavigatorState(state: NavigationState?) {
         this.state = state
     }
 
+    /** Returns saved navigator state from memory. / Retourne l'etat du navigateur sauvegarde en memoire. */
     override fun getNavigatorState(): NavigationState? {
         return state
     }

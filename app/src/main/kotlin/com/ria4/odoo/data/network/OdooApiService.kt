@@ -9,7 +9,8 @@ import io.reactivex.Flowable
 import retrofit2.http.*
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Retrofit JSON-RPC service interface for Odoo authentication, DB, and model calls.
+ * / Interface Retrofit JSON-RPC pour les appels Odoo d'authentification, base et modèle.
  */
 interface OdooApiService {
 

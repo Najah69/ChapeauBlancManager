@@ -15,9 +15,7 @@ import com.google.android.material.navigation.NavigationView
 import com.ria4.odoo.presentation.utils.extensions.delay
 import com.ria4.odoo.presentation.utils.extensions.unSafeLazy
 
-/**
- * Created by glovebx on 20.08.2017.
- */
+/** Custom NavigationView with a RecyclerView-based navigation item list, selection state persistence, and Parcelable state saving. / NavigationView personnalisée avec une liste d'éléments de navigation basée sur RecyclerView, persistance de l'état de sélection et sauvegarde d'état Parcelable. */
 class NavigationDrawerView : NavigationView, ItemClickListener {
 
     private var itemList = mutableListOf(

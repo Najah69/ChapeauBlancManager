@@ -4,9 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 
-/**
- * Created by glovebx on 16.02.2017.
- */
+/** AppCompatTextView that animates text changes using a scale-and-fade crossfade effect (via AnimatedView). / AppCompatTextView qui anime les changements de texte avec un effet de fondu enchaîné avec zoom (via AnimatedView). */
 
 class AnimatedTextView (context: Context, attrs: AttributeSet? = null)
     : AppCompatTextView(context, attrs), AnimatedView {

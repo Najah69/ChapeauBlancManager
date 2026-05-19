@@ -5,9 +5,7 @@ import com.ria4.odoo.data.request.DbRPCRequest
 import com.ria4.odoo.domain.entity.ServerVersion
 import io.reactivex.Flowable
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Domain-layer contract for common Odoo endpoints (server version, DB listing). / Contrat de couche domaine pour les endpoints Odoo communs (version serveur, liste des DB). */
 interface CommonRepository {
 
     fun getServerVersion(request: CommonRPCRequest): Flowable<ServerVersion>

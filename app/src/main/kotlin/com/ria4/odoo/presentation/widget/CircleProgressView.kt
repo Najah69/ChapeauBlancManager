@@ -17,9 +17,7 @@ import com.ria4.odoo.presentation.utils.AnimationUtils
 import com.ria4.odoo.presentation.utils.extensions.hide
 import com.ria4.odoo.presentation.utils.extensions.show
 
-/**
- * Created by glovebx on 04.09.2017.
- */
+/** Custom animated circular progress indicator with an arc sweep and continuous rotation, implementing Animatable. / Indicateur de progression circulaire animé personnalisé avec un balayage d'arc et rotation continue, implémentant Animatable. */
 class CircleProgressView(context: Context, attrs: AttributeSet) : View(context, attrs), Animatable {
 
     private val MAX_VALUE = 360F

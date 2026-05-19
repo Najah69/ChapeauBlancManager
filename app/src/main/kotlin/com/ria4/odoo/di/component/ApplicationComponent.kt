@@ -7,7 +7,8 @@ import dagger.Component
 import javax.inject.Singleton
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Dagger singleton component providing Application-scoped dependencies (API, DB, prefs).
+ * / Composant Dagger singleton fournissant les dépendances globales (API, base, préfs).
  */
 @Singleton
 @Component(modules = [(ApplicationModule::class), (ApiModule::class)])

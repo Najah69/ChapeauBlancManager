@@ -9,7 +9,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Gson-based mapper converting JSON-RPC response DTOs to domain entities.
+ * / Mappeur basé sur Gson convertissant les DTO JSON-RPC en entités du domaine.
  */
 class Mapper {
 

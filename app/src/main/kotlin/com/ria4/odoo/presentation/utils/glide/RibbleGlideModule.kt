@@ -11,9 +11,7 @@ import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
 
 
-/**
- * Created by glovebx on 17.02.2017.
- */
+/** Glide AppGlideModule that configures a 20 MB memory cache and selects decode format based on device RAM (low vs normal). / Module AppGlideModule Glide qui configure un cache mémoire de 20 Mo et sélectionne le format de décodage selon la RAM de l'appareil (faible vs normal). */
 
 @GlideModule
 class RibbleGlideModule : AppGlideModule() {

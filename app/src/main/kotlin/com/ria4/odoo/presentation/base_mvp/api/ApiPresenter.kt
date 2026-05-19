@@ -15,9 +15,9 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 /**
- * Created by glovebx on 11.11.2019.
+ * API-enhanced presenter — wraps Fetcher with RxJava fetch/completion helpers, request-type aliases, and lifecycle-aware disposal.
+ * Presentateur enrichi API — enveloppe le Fetcher avec des helpers RxJava fetch/completion, des alias de types de requetes et une suppression consciente du cycle de vie.
  */
-
 abstract class ApiPresenter<VIEW : BaseContract.View> : BasePresenter<VIEW>(), ResultListener {
 
     @Inject
@@ -72,10 +72,8 @@ abstract class ApiPresenter<VIEW : BaseContract.View> : BasePresenter<VIEW>(), R
     @CallSuper
     override fun onPresenterDestroy() {
         super.onPresenterDestroy()
-        // 关联的Activity销毁时会进入该方法
-        // TODO: 新界面进入时如果有请求可能会被clear！！！
-        // 放到各个Presenter中分别处理
-//        fetcher.clear()
+        // Called when the associated Activity is destroyed / Appelee quand l'Activity associee est detruite
+        // TODO: incoming requests may get cleared when navigating to a new screen — handle per-presenter instead / les requetes entrantes peuvent etre effacees en naviguant vers un nouvel ecran — gerer par presentateur
         fetcher.dispose(callerName)
     }
 

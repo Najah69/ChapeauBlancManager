@@ -4,9 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.cardview.widget.CardView
 
-/**
- * Created by glovebx on 08.08.2017.
- */
+/** CardView that forces a square aspect ratio by using the width measure spec for both dimensions. / CardView qui force un ratio d'aspect carré en utilisant la spécification de mesure de largeur pour les deux dimensions. */
 
 class SquareCardView constructor(context: Context, attrs: AttributeSet? = null) : CardView(context, attrs) {
 

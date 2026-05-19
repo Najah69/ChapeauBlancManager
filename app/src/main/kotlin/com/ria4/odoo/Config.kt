@@ -18,10 +18,9 @@ object Config {
 
     const val INTENT_CHOOSER_TITLE = "来自Odoo助手"
 
-    // 小于 6.7.3 版本可以传 ACTION_SEND_MULTIPLE 参数 + 最多9张图片
-    // 大于等于 6.7.3 版本禁止一键多图，但是可以传 ACTION_SEND_MULTIPLE 参数 + 1张图片
+    // WeChat < 6.7.3: supports ACTION_SEND_MULTIPLE + up to 9 images. WeChat >= 6.7.3: blocks multi-image, only 1 image allowed. / WeChat < 6.7.3 : supporte ACTION_SEND_MULTIPLE + jusqu'a 9 images. WeChat >= 6.7.3 : bloque multi-image, 1 seule image autorisee.
     const val WX_SHARE_ONLY_ONE_IMAGE_VERSION_CODE = 1360
-    // 大于等于 7.0.0 版本原生方法禁止分享多图，甚至进一步不允许用 ACTION_SEND_MULTIPLE
+    // WeChat >= 7.0.0: native methods fully block multi-image sharing, ACTION_SEND_MULTIPLE also prohibited. / WeChat >= 7.0.0 : les methodes natives bloquent completement le partage multi-image, ACTION_SEND_MULTIPLE egalement interdit.
     const val WX_SHARE_NO_IMAGE_VERSION_CODE = 1380
 
     const val REQUEST_IMAGE_EDIT = 1001

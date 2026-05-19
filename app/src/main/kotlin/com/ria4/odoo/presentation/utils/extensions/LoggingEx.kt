@@ -3,9 +3,7 @@ package com.ria4.odoo.presentation.utils.extensions
 import com.luseen.logger.Logger
 
 
-/**
- * Created by glovebx on 14.09.2017.
- */
+/** Convenience logging extension functions wrapping the Logger utility with inline log-and-return support. / Fonctions d'extension de journalisation pratiques enveloppant l'utilitaire Logger avec support inline log-and-return. */
 
 inline fun log(message: () -> Any?) {
     Logger.log(message())

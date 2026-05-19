@@ -4,7 +4,8 @@ import androidx.room.*
 import com.ria4.odoo.domain.entity.User
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Room DAO interface for CRUD operations on the User entity.
+ * / Interface DAO Room pour les opérations CRUD sur l'entité User.
  */
 @Dao
 interface UserDao {

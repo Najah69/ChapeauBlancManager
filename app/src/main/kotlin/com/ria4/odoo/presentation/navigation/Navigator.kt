@@ -12,10 +12,7 @@ import com.ria4.odoo.presentation.utils.extensions.emptyString
 import com.ria4.odoo.presentation.utils.extensions.log
 import javax.inject.Inject
 
-/**
- * Created by glovebx on 11.11.2019.
- */
-
+/** Fragment navigator — manages a linked-hash-map stack of screens with keep/destroy back strategies and custom animations. / Navigateur de fragments — gere une pile de type linked-hash-map d'ecrans avec strategies de retour keep/destroy et animations personnalisees. */
 @PerActivity
 class Navigator @Inject constructor(private val activity: AppCompatActivity,
                                     private val fragmentManager: FragmentManager) {

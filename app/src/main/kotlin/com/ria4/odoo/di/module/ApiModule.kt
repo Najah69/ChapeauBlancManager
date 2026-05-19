@@ -19,7 +19,8 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Dagger module providing Retrofit API services, OkHttp client, and JSON-RPC converter.
+ * / Module Dagger fournissant les services Retrofit, le client OkHttp et le convertisseur JSON-RPC.
  */
 @Module
 class ApiModule {

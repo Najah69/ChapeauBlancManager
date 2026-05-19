@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 import com.ria4.odoo.presentation.utils.extensions.emptyString
 
 /**
- * Created by glovebx on 11.11.2019.
- * {"jsonrpc": "2.0", "id": 1, "result": {"server_version": "14.0alpha1", "server_version_info": [14, 0, 0, "alpha", 1, ""], "server_serie": "14.0", "protocol_version": 1}}
+ * Base JSON-RPC 2.0 result envelope with optional server_version info from Odoo.
+ * / Enveloppe de réponse JSON-RPC 2.0 avec info serveur (version) optionnelle d'Odoo.
  */
 open class BaseRPCResult {
 }

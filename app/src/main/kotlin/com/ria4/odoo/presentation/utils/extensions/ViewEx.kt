@@ -11,9 +11,7 @@ import android.widget.TextView
 import androidx.annotation.Px
 import androidx.core.content.ContextCompat
 
-/**
- * Created by glovebx on 14.09.2017.
- */
+/** Extension functions for View, TextView, ImageView, and ViewGroup: icons, tints, scaling, visibility, and layout inflation. / Fonctions d'extension pour View, TextView, ImageView et ViewGroup : icônes, teintes, mise à l'échelle, visibilité et inflation de layout. */
 
 fun TextView.leftIcon(drawableId: Int) {
     setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, drawableId), null, null, null)

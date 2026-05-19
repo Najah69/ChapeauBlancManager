@@ -11,7 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by glovebx on 11.11.2019.
+ * SharedPreferences wrapper for persisting Odoo server URL, DB name, and user credentials.
+ * / Wrapper SharedPreferences pour persister l'URL serveur, la base et les identifiants Odoo.
  */
 @Singleton
 class Preferences @Inject constructor(app: Application) {

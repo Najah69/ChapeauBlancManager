@@ -3,6 +3,7 @@ package com.ria4.odoo.presentation.adapter
 import androidx.recyclerview.widget.DiffUtil
 
 
+/** Generic DiffUtil.Callback that compares list items by object equality for efficient RecyclerView updates. / Callback DiffUtil générique qui compare les éléments de liste par égalité d'objet pour des mises à jour RecyclerView efficaces. */
 internal class DiffUtilCallback<ITEM>(private val oldItems: List<ITEM>,
                                       private val newItems: List<ITEM>) : DiffUtil.Callback() {
 

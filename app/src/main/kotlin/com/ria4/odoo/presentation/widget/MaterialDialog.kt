@@ -15,9 +15,7 @@ import com.ria4.odoo.presentation.utils.extensions.onClick
 import com.ria4.odoo.presentation.utils.extensions.scale
 import kotlinx.android.synthetic.main.dialog_item.*
 
-/**
- * Created by glovebx on 10.09.2017.
- */
+/** Custom Material-style dialog with title, message, positive button, and scale/fade show/hide animations. / Dialogue personnalisé de style Material avec titre, message, bouton positif et animations show/hide avec zoom/fondu. */
 class MaterialDialog(context: Context) : Dialog(context, R.style.MaterialDialogSheet) {
 
     private val titleText by unSafeLazy {

@@ -3,9 +3,7 @@ package com.ria4.odoo.presentation.widget
 import android.view.View
 import com.ria4.odoo.presentation.utils.AnimationUtils
 
-/**
- * Created by glovebx on 17.09.2017.
- */
+/** Interface providing a crossfade animation with alpha + scale for smooth View content transitions. / Interface fournissant une animation de fondu avec alpha + zoom pour des transitions de contenu View fluides. */
 interface AnimatedView {
 
     fun <V : View> animate(view: V, duration: Long = 170, startDelay: Long, acton: V.() -> Unit) {

@@ -6,9 +6,7 @@ import android.os.Parcelable
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
-/**
- * Created by glovebx on 19.09.2017.
- */
+/** Extension functions for Fragment: typed argument extraction, orientation check, and color resource access. / Fonctions d'extension pour Fragment : extraction typée d'arguments, vérification d'orientation et accès aux ressources de couleur. */
 
 //fun bundled(value: Any) {
 //    val args = Bundle()

@@ -5,9 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.core.content.ContextCompat
 
-/**
- * Created by glovebx on 19.09.2017.
- */
+/** Extension functions for Activity: reified startActivity, orientation check, and color resource access. / Fonctions d'extension pour Activity : startActivity réifié, vérification d'orientation et accès aux ressources de couleur. */
 inline fun <reified T> Activity.start() {
     this.startActivity(Intent(this, T::class.java))
 }

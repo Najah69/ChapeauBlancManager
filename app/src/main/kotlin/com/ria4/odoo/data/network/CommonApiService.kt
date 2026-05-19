@@ -7,9 +7,7 @@ import com.segment.jsonrpc.JsonRPC
 import io.reactivex.Flowable
 import retrofit2.http.*
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Retrofit JSON-RPC interface for common Odoo endpoints (serverVersion, listDb). / Interface Retrofit JSON-RPC pour les endpoints Odoo communs (serverVersion, listDb). */
 interface CommonApiService {
 
     @JsonRPC("call") @POST("jsonrpc")

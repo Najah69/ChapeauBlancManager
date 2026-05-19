@@ -9,9 +9,7 @@ import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
 import com.ria4.odoo.presentation.utils.extensions.takeColor
 
-/**
- * Created by glovebx on 29.08.2017.
- */
+/** Vertical LinearLayout combining a CircleLinedImageView and a TextView for labeled icon display. / LinearLayout vertical combinant une CircleLinedImageView et un TextView pour un affichage d'icône avec libellé. */
 class TextImageLayout(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private val circleImage: CircleLinedImageView

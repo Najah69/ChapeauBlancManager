@@ -1,7 +1,8 @@
 package com.ria4.odoo.data.network
 
 /**
- * Created by glovebx on 11.11.2019.
+ * API constants — Odoo endpoint URL and auth token.
+ * Constantes API — URL de l'endpoint Odoo et token d'authentification.
  */
 object ApiConstants {
 

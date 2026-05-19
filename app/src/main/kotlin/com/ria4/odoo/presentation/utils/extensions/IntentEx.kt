@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 
-/**
- * Created by glovebx on 15.09.2017.
- */
+/** Extension functions on Context for sending emails and opening URLs via Android Intents. / Fonctions d'extension sur Context pour envoyer des emails et ouvrir des URLs via les Intents Android. */
 
 fun Context.sendEmail(subject: String,
                       senderMail: String,

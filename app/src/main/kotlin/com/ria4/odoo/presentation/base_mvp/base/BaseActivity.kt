@@ -17,6 +17,10 @@ import kotlinx.android.extensions.CacheImplementation
 import kotlinx.android.extensions.ContainerOptions
 import javax.inject.Inject
 
+/**
+ * Base activity — wires navigator, Dagger DI (ActivityComponent), back-stack handling, and dialog helpers.
+ * Activite de base — connecte le navigateur, l'injection Dagger (ActivityComponent), la gestion de la pile de retour et les helpers de dialogue.
+ */
 abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>>
     : BaseMVPActivity<V, P>(), Navigator.FragmentChangeListener {
 
@@ -32,6 +36,7 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
         getAppComponent() + ActivityModule(this)
     }
 
+    /** Injects dependencies, wires fragment change listener, then delegates to super. / Injecte les dependances, connecte le listener de changement de fragment, puis delegue au super. */
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies()
@@ -39,12 +44,14 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
         super.onCreate(savedInstanceState)
     }
 
+    /** Dismisses any open material dialog before destroy. / Ferme tout dialogue materiel ouvert avant la destruction. */
     @CallSuper
     override fun onDestroy() {
         dialog?.dismiss()
         super.onDestroy()
     }
 
+    /** Pops back-stack if available, otherwise delegates to system back press. / Depile la pile de retour si disponible, sinon delegue au retour systeme. */
     @CallSuper
     override fun onBackPressed() {
         if (navigator.hasBackStack())
@@ -57,6 +64,7 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     private fun getAppComponent() = App.instance.applicationComponent
 
+    /** Navigates to a reified fragment, preserving state by default. / Navigue vers un fragment reifie, en preservant l'etat par defaut. */
     inline protected fun <reified T : Fragment> goTo(keepState: Boolean = true,
                                                      withCustomAnimation: Boolean = false,
                                                      arg: Bundle = Bundle.EMPTY) {

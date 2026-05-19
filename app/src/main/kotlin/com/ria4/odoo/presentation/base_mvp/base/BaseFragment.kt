@@ -17,7 +17,8 @@ import kotlinx.android.extensions.ContainerOptions
 import javax.inject.Inject
 
 /**
- * Created by glovebx on 01.08.2017.
+ * Base fragment — wires navigator, DI, layout inflation, and fragment navigation helpers.
+ * Fragment de base — connecte le navigateur, l'injection de dependances, le gonflage de layout et les helpers de navigation entre fragments.
  */
 abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>> : BaseMVPFragment<V, P>() {
 
@@ -27,6 +28,7 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
     protected lateinit var activityComponent: ActivityComponent
     protected lateinit var activity: BaseActivity<*, *>
 
+    /** Extracts activity component and injects dependencies on attach. / Extrait le composant d'activite et injecte les dependances a l'attachement. */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is BaseActivity<*, *>) {
@@ -40,6 +42,7 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
         return inflater.inflate(layoutResId, container, false)
     }
 
+    /** Navigates to a reified fragment with optional back-strategy control. / Navigue vers un fragment reifie avec controle optionnel de la strategie de retour. */
     inline fun <reified T : Fragment> goTo(keepState: Boolean = true,
                                            withCustomAnimation: Boolean = false,
                                            arg: Bundle = Bundle.EMPTY,

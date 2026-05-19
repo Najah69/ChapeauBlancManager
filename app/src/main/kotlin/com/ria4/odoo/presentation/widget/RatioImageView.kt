@@ -5,9 +5,7 @@ import android.util.AttributeSet
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ria4.odoo.R
 
-/**
- * Created by liufei on 2017/10/17.
- */
+/** SimpleDraweeView subclass with configurable width/height ratio, computing layout height from width. / Sous-classe SimpleDraweeView avec ratio largeur/hauteur configurable, calculant la hauteur du layout a partir de la largeur. */
 class RatioImageView : SimpleDraweeView {
     var widthPercent: Int = 0
     var heightPercent: Int = 0
@@ -37,13 +35,13 @@ class RatioImageView : SimpleDraweeView {
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
 
         if (widthMode == MeasureSpec.EXACTLY && heightMode != MeasureSpec.EXACTLY) {
-            // 1. 根据布局宽度推算图片宽度
+            // 1. Derive image width from layout width / Deduire la largeur de l'image depuis la largeur du layout
             val imageWidth = widthSize - paddingLeft - paddingRight
-            // 2. 根据图片宽度和宽高比,推算图片高度
+            // 2. Derive image height from image width and aspect ratio / Deduire la hauteur de l'image depuis la largeur et le ratio
             val imageHeight = imageWidth * heightPercent / widthPercent
-            // 3. 根据图片高度, 推算布局高度
+            // 3. Derive layout height from image height / Deduire la hauteur du layout depuis la hauteur de l'image
             val heightSize = imageHeight + paddingTop + paddingBottom
-            // 4. 根据布局高度, 推算heightMeasureSpec
+            // 4. Derive heightMeasureSpec from layout height / Deduire le heightMeasureSpec depuis la hauteur du layout
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY)
         }
 

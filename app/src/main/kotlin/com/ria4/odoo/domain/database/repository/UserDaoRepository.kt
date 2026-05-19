@@ -6,7 +6,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 
 /**
- * Created by glovebx on 06/01/18.
+ * Domain-layer contract for Room-backed user DAO operations (insert, query, observe).
+ * / Contrat du domaine pour les opérations DAO User via Room (insertion, requête, observation).
  */
 interface UserDaoRepository {
 

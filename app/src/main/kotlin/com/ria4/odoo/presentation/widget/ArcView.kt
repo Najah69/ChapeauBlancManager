@@ -7,6 +7,7 @@ import android.view.View
 import com.ria4.odoo.R
 import com.ria4.odoo.presentation.utils.extensions.takeColor
 
+/** Custom View that draws a filled arc shape with a shadow, typically used as a decorative header background. / Vue personnalisée dessinant une forme d'arc remplie avec une ombre, généralement utilisée comme fond décoratif d'en-tête. */
 class ArcView constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private val SHADOW_OFFSET = 15F

@@ -4,7 +4,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Base JSON-RPC request — holds serialized args and context map for Odoo wire format.
+ * Requete JSON-RPC de base — contient les args serialises et la map de contexte pour le format wire Odoo.
  */
 open class BaseRPCRequest {
 

@@ -4,6 +4,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.ConcurrentHashMap
 
+/** Wrapper around CompositeDisposable keyed by caller name, enabling scoped disposal of Rx subscriptions. / Enveloppe autour de CompositeDisposable indexée par nom d'appelant, permettant la libération par portée des souscriptions Rx. */
 class CompositeDisposableWrapper () {
     private val callerDisposableMap = ConcurrentHashMap<String, CompositeDisposable>()
 

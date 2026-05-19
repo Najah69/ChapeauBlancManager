@@ -10,9 +10,7 @@ import com.ria4.odoo.domain.entity.ServerVersion
 import com.ria4.odoo.domain.repository.CommonRepository
 import io.reactivex.*
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Common data repository — maps raw API responses through Mapper, delegates to memory cache and CommonApiService. / Depot de donnees commun — mappe les reponses API brutes via Mapper, delegue au cache memoire et CommonApiService. */
 class CommonDataRepository(
         private val commonApiService: CommonApiService,
         private var gson: Gson,

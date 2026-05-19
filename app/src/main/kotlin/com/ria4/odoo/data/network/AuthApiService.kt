@@ -5,9 +5,7 @@ import com.segment.jsonrpc.JsonRPC
 import io.reactivex.Flowable
 import retrofit2.http.*
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Retrofit JSON-RPC interface for authentication (authenticate). / Interface Retrofit JSON-RPC pour l'authentification (authenticate). */
 interface AuthApiService {
 
     @JsonRPC("call") @POST("jsonrpc")

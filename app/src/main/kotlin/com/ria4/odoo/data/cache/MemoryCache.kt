@@ -6,7 +6,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by glovebx on 11.11.2019.
+ * In-memory LRU cache for API responses, keyed by RequestType.
+ * / Cache mémoire LRU pour les réponses d'API, indexé par RequestType.
  */
 @Singleton
 class MemoryCache @Inject constructor() : LruCache<RequestType, Any>(1024 * 1024 * 2)/* 2 MB */ {

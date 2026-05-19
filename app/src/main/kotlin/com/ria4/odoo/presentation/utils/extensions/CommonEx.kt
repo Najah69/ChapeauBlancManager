@@ -18,9 +18,7 @@ import com.ria4.odoo.Config
 import com.ria4.odoo.presentation.utils.Experimental
 
 
-/**
- * Created by glovebx on 01.08.2017.
- */
+/** Common Kotlin extension functions: context resources, thread-safe lazy, HTML rendering, clipboard, and null checks. / Fonctions d'extension Kotlin communes : ressources de contexte, lazy thread-safe, rendu HTML, presse-papier et vérifications null. */
 
 infix fun Context.takeColor(colorId: Int) = ContextCompat.getColor(this, colorId)
 

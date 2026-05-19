@@ -22,7 +22,8 @@ import java.net.SocketException
 
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Application class — initializes Dagger DI, Fresco, logger, StrictMode, and RxJava error handler.
+ * Classe Application — initialise Dagger DI, Fresco, le logger, StrictMode et le gestionnaire d'erreurs RxJava.
  */
 class App : MultiDexApplication() {
 
@@ -32,7 +33,7 @@ class App : MultiDexApplication() {
                 .build()
     }
 
-    // 当前用户
+    // Current user / Utilisateur courant
     var user: User? = null
 
     companion object {
@@ -56,8 +57,7 @@ class App : MultiDexApplication() {
 
         Fresco.initialize(this);
 
-        // detectFileUriExposure方法 需要SDK最小是18
-        // 否则会报错 exposed beyond app through ClipData.Item.getUri()
+        // detectFileUriExposure requires API 18+, otherwise it throws "exposed beyond app through ClipData.Item.getUri()" / detectFileUriExposure necessite API 18+, sinon leve "exposed beyond app through ClipData.Item.getUri()"
         MR2orAbove {
             val builder = StrictMode.VmPolicy.Builder()
             StrictMode.setVmPolicy(builder.build())

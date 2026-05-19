@@ -1,7 +1,8 @@
 package com.ria4.odoo.domain.fetcher
 
 /**
- * Created by glovebx on 18.09.2017.
+ * Sealed class representing reactive request lifecycle states (IDLE, LOADING, SUCCESS, ERROR, EMPTY_SUCCESS).
+ * / Classe scellée représentant les états réactifs d'une requête (repos, chargement, succès, erreur, succès vide).
  */
 sealed class Status {
 

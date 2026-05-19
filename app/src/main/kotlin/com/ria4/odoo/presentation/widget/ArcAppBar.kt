@@ -12,9 +12,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.appbar.AppBarLayout
 
 
-/**
- * Created by glovebx on 20.09.2017.
- */
+/** AppBarLayout subclass that clips its content with a concave arc (quadratic bezier) at the bottom edge. / Sous-classe d'AppBarLayout qui découpe son contenu avec un arc concave (courbe de Bézier quadratique) sur le bord inférieur. */
 class ArcAppBar : AppBarLayout {
 
     private var clipPath: Path? = null

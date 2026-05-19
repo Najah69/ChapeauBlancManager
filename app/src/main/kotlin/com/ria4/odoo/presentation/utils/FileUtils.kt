@@ -4,6 +4,7 @@ import android.os.Environment
 import com.ria4.odoo.Config
 import java.io.File
 
+/** Utility object providing access to the app's gallery folder on external storage. / Objet utilitaire fournissant l'accès au dossier galerie de l'application sur le stockage externe. */
 object FileUtils {
 
     fun getGalleryFolder(): File {

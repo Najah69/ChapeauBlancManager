@@ -3,7 +3,8 @@ package com.ria4.odoo.presentation.base_mvp.base
 import io.armcha.arch.BaseMVPContract
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Root MVP contract — minimal View and Presenter interfaces extending the BaseMVP library.
+ * Contrat MVP racine — interfaces View et Presenter minimales etendant la librairie BaseMVP.
  */
 interface BaseContract {
 

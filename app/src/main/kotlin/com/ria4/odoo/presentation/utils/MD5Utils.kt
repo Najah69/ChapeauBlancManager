@@ -3,13 +3,13 @@ package com.ria4.odoo.presentation.utils
 import androidx.annotation.NonNull
 import java.security.MessageDigest
 
+/** MD5 hashing utility — hex/bytes conversion helpers. / Utilitaire de hachage MD5 — helpers de conversion hex/bytes. */
 class MD5Utils {
     companion object {
         private val md5 = MessageDigest.getInstance("MD5")
 
         fun getMD5(@NonNull content: String): String? {
             md5.update(content.toByteArray())
-//            val m = _md5.digest()// 加密
             return bytes2Hex(md5.digest())
         }
 
@@ -32,10 +32,10 @@ class MD5Utils {
 
             val buf = StringBuffer()
             for (i in data.indices) {
-                if (data[i].toInt() and 0xff < 0x10) { /* & 0xff转换无符号整型 */
+                if (data[i].toInt() and 0xff < 0x10) { /* & 0xff converts to unsigned int / & 0xff convertit en entier non signe */
                     buf.append("0")
                 }
-                buf.append(java.lang.Long.toHexString((data[i].toInt() and 0xff).toLong())) /* 转换16进制,下方法同 */
+                buf.append(java.lang.Long.toHexString((data[i].toInt() and 0xff).toLong())) /* Convert to hex, same method below / Conversion en hex, meme methode ci-dessous */
             }
             return buf.toString()
         }

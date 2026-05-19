@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 /**
- * Created by glovebx on 11/11/2019.
+ * Infinite-scroll listener triggering load-more when the last visible item is reached.
+ * / Écouteur de défilement infini déclenchant un chargement supplémentaire en fin de liste.
  */
 
 abstract class OnLoadMoreListener : RecyclerView.OnScrollListener() {

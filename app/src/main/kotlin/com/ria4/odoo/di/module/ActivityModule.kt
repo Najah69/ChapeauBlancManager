@@ -18,7 +18,8 @@ import com.ria4.odoo.domain.repository.CommonRepository
 import com.ria4.odoo.domain.repository.UserRepository
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Dagger module providing Activity-scoped dependencies: Context, LayoutInflater, FragmentManager.
+ * / Module Dagger fournissant les dépendances liées à l'Activity : contexte, inflater, fragments.
  */
 @Module
 class ActivityModule(private val activity: AppCompatActivity) {

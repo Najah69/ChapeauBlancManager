@@ -1,7 +1,8 @@
 package com.ria4.odoo.presentation.navigation
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Serializable data class holding the navigator stack state (active tag, first tag, animation flag).
+ * / Data class sérialisable contenant l'état de la pile de navigation (tag actif, premier tag, animation).
  */
 data class NavigationState constructor(
         var activeTag: String? = null,

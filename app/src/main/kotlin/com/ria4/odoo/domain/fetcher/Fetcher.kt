@@ -14,7 +14,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Reactive fetch orchestrator — subscribes RxJava streams on IO, observes on main thread, tracks request status per type, and manages disposables per caller.
+ * Orchestrateur de fetch reactif — souscrit les flux RxJava sur IO, observe sur le thread principal, suit le statut des requetes par type et gere les disposables par appelant.
  */
 @Singleton
 class Fetcher @Inject constructor(private val disposable: CompositeDisposableWrapper) {

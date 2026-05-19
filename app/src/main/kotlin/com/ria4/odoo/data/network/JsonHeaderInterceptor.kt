@@ -5,7 +5,8 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 /**
- * Created by glovebx on 11.11.2019.
+ * OkHttp interceptor that injects Content-Type: application/json when missing.
+ * / Intercepteur OkHttp injectant Content-Type: application/json si absent.
  */
 class JsonHeaderInterceptor constructor(private val preferences: Preferences) : Interceptor {
 

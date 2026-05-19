@@ -6,9 +6,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy
 import com.facebook.drawee.view.SimpleDraweeView
 
 
-/**
- * Created by liufei on 2017/10/13.
- */
+/** SimpleDraweeView subclass that exposes all standard constructors for Fresco-based image loading. / Sous-classe de SimpleDraweeView exposant tous les constructeurs standard pour le chargement d'images via Fresco. */
 open class DraweeImageView : SimpleDraweeView {
 
     constructor(context: Context, hierarchy: GenericDraweeHierarchy) : super(context, hierarchy)

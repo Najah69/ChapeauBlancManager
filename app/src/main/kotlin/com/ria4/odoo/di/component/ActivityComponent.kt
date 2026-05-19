@@ -8,7 +8,8 @@ import com.ria4.odoo.presentation.screen.home.HomeActivity
 import dagger.Subcomponent
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Dagger subcomponent scoped to Activity lifecycle, injected into Activities.
+ * / Sous-composant Dagger lié au cycle de vie Activity, injecté dans les Activity.
  */
 
 @PerActivity

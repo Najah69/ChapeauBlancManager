@@ -3,7 +3,8 @@ package com.ria4.odoo.presentation.navigation
 import com.ria4.odoo.presentation.utils.Experimental
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Navigation back strategy: KEEP retains the fragment on back, DESTROY removes it.
+ * / Stratégie de retour : KEEP conserve le fragment au retour, DESTROY le supprime.
  */
 @Experimental
 sealed class BackStrategy {

@@ -19,9 +19,7 @@ import io.reactivex.Single
 import java.util.*
 import javax.inject.Singleton
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Dagger application module — provides Application, Room DB, Gson (with int→double fix), Mapper, and UserDaoRepository. / Module Dagger application — fournit Application, Room DB, Gson (avec correctif int→double), Mapper et UserDaoRepository. */
 @Module
 class ApplicationModule(private val application: Application) {
 
@@ -43,7 +41,7 @@ class ApplicationModule(private val application: Application) {
     fun provideGson(): Gson = GsonBuilder().registerTypeAdapterFactory(
             UnknownPropertiesTypeAdapterFactory.instance)
             .create().apply {
-                // 解决gson把int类型的数据cast为double的问题
+                // Fix Gson casting int values to double / Corrige Gson qui caste les int en double
                 val factories = this.javaClass.getDeclaredField("factories")
                 factories.isAccessible = true
                 val o = factories.get(this)
@@ -54,7 +52,7 @@ class ApplicationModule(private val application: Application) {
                         listField.isAccessible = true
                         val list = listField.get(o) as MutableList<TypeAdapterFactory>
                         val index = list.indexOf(ObjectTypeAdapter.FACTORY)
-                        // 替换
+                        // Replace with modified adapter / Remplacer par l'adaptateur modifie
                         if (index >=0 ) {
                             list[index] = ModifiedObjectTypeAdapter.FACTORY
                         }

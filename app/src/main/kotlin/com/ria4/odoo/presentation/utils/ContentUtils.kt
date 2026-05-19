@@ -6,9 +6,10 @@ import android.net.Uri
 import android.provider.MediaStore
 import java.io.File
 
+/** MediaStore content utilities — save images and videos to the system gallery with proper date-times. / Utilitaires de contenu MediaStore — enregistre les images et videos dans la galerie systeme avec les bonnes dates. */
 object ContentUtils {
 
-    // 保存图片到相册
+    // Save image to gallery / Sauvegarder l'image dans la galerie
     fun saveImageContentValues(context: Context, image: File): Uri? {
         val uri = getImageContentUri(context, image)
         if (uri != null) {
@@ -29,7 +30,7 @@ object ContentUtils {
         val localContentValues = ContentValues()
         localContentValues.put(MediaStore.Images.Media.DATE_TAKEN, datetime)
         localContentValues.put(MediaStore.Images.Media.DATE_ADDED, datetime / 1000)
-        // 更改媒体的时间
+        // Update media timestamps / Mettre a jour les timestamps du media
         return context.contentResolver.update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 , localContentValues
                 , MediaStore.Images.Media.DATA + "=? "
@@ -62,11 +63,11 @@ object ContentUtils {
         return localContentValues
     }
 
-    // 保存视频到相册
+    // Save video to gallery / Sauvegarder la video dans la galerie
     fun saveVideoContentValues(context: Context, video: File): Uri? {
         val uri = getVideoContentUri(context, video)
         if (uri != null) {
-            // 更新时间
+            // Update timestamp / Mettre a jour le timestamp
             updateVideoDateTimes(context, video)
             return uri
         }
@@ -80,7 +81,7 @@ object ContentUtils {
         val localContentValues = ContentValues()
         localContentValues.put(MediaStore.Video.Media.DATE_TAKEN, datetime)
         localContentValues.put(MediaStore.Video.Media.DATE_ADDED, datetime / 1000)
-        // 更改媒体的时间
+        // Update media timestamps / Mettre a jour les timestamps du media
         return context.contentResolver.update(MediaStore.Video.Media.EXTERNAL_CONTENT_URI
                 , localContentValues
                 , MediaStore.Video.Media.DATA + "=? "

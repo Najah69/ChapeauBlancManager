@@ -9,9 +9,7 @@ import androidx.room.PrimaryKey
 import com.ria4.odoo.presentation.utils.extensions.emptyString
 import kotlinx.android.parcel.Parcelize
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** Room entity + Parcelable for authenticated Odoo user — stored in local DB with db/uid unique constraint. / Entite Room + Parcelable pour l'utilisateur Odoo authentifie — stocke en DB locale avec contrainte unique db/uid. */
 @SuppressLint("ParcelCreator")
 @Parcelize
 @Entity(tableName = "user", indices = [Index(value = ["db", "uid"], unique = true)])

@@ -25,6 +25,10 @@ import permissions.dispatcher.*
 import javax.inject.Inject
 import com.ria4.odoo.presentation.widget.navigation_view.NavigationId as Id
 
+/**
+ * Main home screen with navigation drawer — manages toolbar state, fragment navigation, user info and permissions.
+ * Ecran d'accueil principal avec drawer de navigation — gere l'etat de la toolbar, la navigation entre fragments, les infos utilisateur et les permissions.
+ */
 @RuntimePermissions
 class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), HomeContract.View,
         NavigationItemSelectedListener {
@@ -40,6 +44,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
 
     override fun initPresenter() = homePresenter
 
+    /** Inflates layout, initializes toolbar/drawer, restores navigator state. / Gonfle le layout, initialise toolbar/drawer, restaure l'etat du navigateur. */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.ria4.odoo.R.layout.activity_home)
@@ -50,6 +55,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
         }
     }
 
+    /** Saves drawer animation state (translation, scale, elevation) to bundle. / Sauvegarde l'etat d'animation du drawer (translation, echelle, elevation) dans le bundle. */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         fun put(key: String, value: Float) = outState.putFloat(key, value)
@@ -60,6 +66,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
         }
     }
 
+    /** Restores drawer animation state from saved bundle. / Restaure l'etat d'animation du drawer depuis le bundle sauvegarde. */
     override fun onRestoreInstanceState(savedState: Bundle?) {
         super.onRestoreInstanceState(savedState)
         savedState?.let {
@@ -71,15 +78,18 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
         }
     }
 
+    /** Saves navigator state before destroying. / Sauvegarde l'etat du navigateur avant la destruction. */
     override fun onDestroy() {
         presenter.saveNavigatorState(navigator.getState())
         super.onDestroy()
     }
 
+    /** Injects HomePresenter via Dagger activity component. / Injecte le HomePresenter via le composant Dagger d'activite. */
     override fun injectDependencies() {
         activityComponent.inject(this)
     }
 
+    /** Wires toolbar, navigation drawer listener, and drawer slide animation. / Connecte la toolbar, le listener du drawer de navigation et l'animation de glissement du drawer. */
     private fun initViews() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -115,6 +125,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
 //        }
     }
 
+    /** Switches arc icon to back-arrow and sets back-press behavior. / Change l'icone arc en fleche retour et definit le comportement back-press. */
     override fun setArcArrowState() {
         arcView.onClick {
             super.onBackPressed()
@@ -122,6 +133,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
         arcImage.setAnimatedImage(com.ria4.odoo.R.drawable.arrow_left)
     }
 
+    /** Switches arc icon to hamburger menu and opens drawer on click. / Change l'icone arc en menu hamburger et ouvre le drawer au clic. */
     override fun setArcHamburgerIconState() {
         drawerLayout?.let {
             arcView.onClick {
@@ -136,20 +148,24 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
 //        goTo<>()
     }
 
+    /** Navigates to login screen, shows logged-out toast, and finishes current activity. / Navigue vers l'ecran de connexion, affiche un toast de deconnexion et termine l'activite. */
     override fun openLoginActivity() {
         start<AuthActivity>()
         showToast("Logged out")
         finish()
     }
 
+    /** Updates the toolbar animated title. / Met a jour le titre anime de la toolbar. */
     override fun setToolBarTitle(title: String) {
         toolbarTitle?.setAnimatedText(title)
     }
 
+    /** Delegates fragment change handling to the presenter. / Delegue la gestion du changement de fragment au presentateur. */
     override fun onFragmentChanged(currentTag: String, currentFragment: Fragment) {
         presenter.handleFragmentChanges(currentTag, currentFragment)
     }
 
+    /** Populates the navigation drawer header with user name, info, and avatar. / Remplit l'en-tete du drawer de navigation avec le nom, les infos et l'avatar utilisateur. */
     override fun updateDrawerInfo(user: User) {
         val header = navView.header
         with(header) {
@@ -159,12 +175,14 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
         }
     }
 
+    /** Checks the given navigation item position in the drawer. / Coche l'element de navigation a la position donnee dans le drawer. */
     override fun checkNavigationItem(position: Int) {
         navView?.let {
             navView.setChecked(position)
         }
     }
 
+    /** Handles back-press: closes drawer or shows exit toast on second press within 2 seconds. / Gere le retour : ferme le drawer ou affiche un toast de sortie au deuxieme appui dans les 2 secondes. */
     override fun onBackPressed() {
         when {
             drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
@@ -182,6 +200,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
         }
     }
 
+    /** Routes navigation drawer item selections (Home, About, Logout) to appropriate action. / Route les selections du drawer (Accueil, A propos, Deconnexion) vers l'action appropriee. */
     override fun onNavigationItemSelected(item: NavigationItem) {
         when (item.id) {
             Id.HOME -> {

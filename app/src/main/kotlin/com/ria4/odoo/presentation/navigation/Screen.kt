@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Wrapper pairing a Fragment with its BackStrategy in the navigation stack.
+ * / Wrapper associant un Fragment à sa stratégie de retour dans la pile de navigation.
  */
 data class Screen(val fragment: Fragment, val backStrategy: BackStrategy)

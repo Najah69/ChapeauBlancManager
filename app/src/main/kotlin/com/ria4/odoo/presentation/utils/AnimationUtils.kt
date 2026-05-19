@@ -6,7 +6,8 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 
 /**
- * Created by glovebx on 06.08.2017.
+ * Shared element transition animation utilities providing standard Material interpolators.
+ * / Utilitaires d'animation de transition fournissant les interpolateurs Material standard.
  */
 
 object AnimationUtils {

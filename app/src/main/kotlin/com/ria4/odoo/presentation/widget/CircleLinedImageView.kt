@@ -8,9 +8,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import com.ria4.odoo.presentation.utils.extensions.toPx
 
-/**
- * Created by glovebx on 27.08.2017.
- */
+/** ImageView that draws a light gray circular outline border around the image with dynamic padding. / ImageView qui dessine une bordure circulaire gris clair autour de l'image avec un padding dynamique. */
 class CircleLinedImageView(context: Context, attrs: AttributeSet? = null)
     : AppCompatImageView(context, attrs) {
 

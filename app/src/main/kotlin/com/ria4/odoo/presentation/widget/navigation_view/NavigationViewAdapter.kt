@@ -8,9 +8,7 @@ import com.ria4.odoo.presentation.utils.extensions.takeColor
 import com.ria4.odoo.presentation.utils.extensions.tint
 import kotlinx.android.synthetic.main.navigation_view_item.view.*
 
-/**
- * Created by glovebx on 20.08.2017.
- */
+/** RecyclerView adapter for NavigationItem list, applying selection-based text color styling and icon tinting. / Adaptateur RecyclerView pour la liste de NavigationItem, appliquant un style de couleur de texte basé sur la sélection et une teinte d'icône. */
 class NavigationViewAdapter constructor(navigationItemList: MutableList<NavigationItem>,
                                         private var itemClickListener: ItemClickListener?)
     : AbstractAdapter<NavigationItem>(navigationItemList, L.navigation_view_item) {

@@ -2,9 +2,7 @@ package com.ria4.odoo.presentation.widget.navigation_view
 
 import com.ria4.odoo.R
 
-/**
- * Created by glovebx on 20.08.2017.
- */
+/** Data class representing a navigation drawer item with a NavigationId, icon resource, selection state, and icon tint color. / Classe de données représentant un élément du tiroir de navigation avec un NavigationId, une ressource d'icône, un état de sélection et une couleur de teinte d'icône. */
 data class NavigationItem(val item: NavigationId,
                           val icon: Int,
                           var isSelected: Boolean = false,

@@ -11,9 +11,7 @@ import com.ria4.odoo.domain.entity.User
 import com.ria4.odoo.domain.repository.UserRepository
 import io.reactivex.*
 
-/**
- * Created by glovebx on 11.11.2019.
- */
+/** User data repository — handles authentication response mapping (db, uid, password → User), token persistence, and cache clearing. / Depot de donnees utilisateur — gere le mapping de la reponse d'authentification (db, uid, password → User), la persistance du token et le nettoyage du cache. */
 class UserDataRepository(
         private val authApiService: AuthApiService,
         private val userApiService: UserApiService,

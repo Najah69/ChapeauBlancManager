@@ -1,7 +1,8 @@
 package com.ria4.odoo.domain.fetcher.result_listener
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Listener interface for reactive request lifecycle callbacks (start, error) with optional RequestType.
+ * / Interface d'écoute pour les callbacks réactifs de requête (début, erreur) avec RequestType optionnel.
  */
 interface ResultListener {
 

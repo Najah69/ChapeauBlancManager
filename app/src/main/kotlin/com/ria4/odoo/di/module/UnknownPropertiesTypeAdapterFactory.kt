@@ -13,6 +13,7 @@ import com.google.gson.stream.JsonWriter
 import java.io.IOException
 
 
+/** Gson TypeAdapterFactory that preserves unknown JSON properties and passes them to IUnknownPropertiesConsumer for post-processing. / Fabrique TypeAdapter Gson qui préserve les propriétés JSON inconnues et les transmet à IUnknownPropertiesConsumer pour traitement ultérieur. */
 class UnknownPropertiesTypeAdapterFactory: TypeAdapterFactory {
     private constructor() {}
 
@@ -39,6 +40,7 @@ class UnknownPropertiesTypeAdapterFactory: TypeAdapterFactory {
         return UnknownPropertiesTypeAdapter.create<IUnknownPropertiesConsumer>(rawType, delegateTypeAdapter, excluder, fieldNamingStrategy) as TypeAdapter<T>
     }
 
+    /** TypeAdapter that extracts unknown JSON fields during deserialization and feeds them to the consumer object. / TypeAdapter qui extrait les champs JSON inconnus lors de la désérialisation et les injecte dans l'objet consommateur. */
     private class UnknownPropertiesTypeAdapter<T : IUnknownPropertiesConsumer> private constructor(private val typeAdapter: TypeAdapter<T>, private val propertyNames: Collection<String>) : TypeAdapter<T>() {
 
         companion object {

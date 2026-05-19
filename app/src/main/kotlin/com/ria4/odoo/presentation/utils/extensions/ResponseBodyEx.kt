@@ -3,7 +3,7 @@ package com.ria4.odoo.presentation.utils.extensions
 import okhttp3.ResponseBody
 import java.io.*
 
-// 可能会抛出错误
+// May throw on disk I/O errors / Peut lever une erreur sur les E/S disque
 @Throws(Throwable::class)
 fun ResponseBody.saveToDisk(absolutePath: String): Boolean {
 

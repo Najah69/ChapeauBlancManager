@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import com.ria4.odoo.presentation.utils.extensions.inflate
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Base RecyclerView adapter using data binding to map items to a given layout.
+ * / Adaptateur RecyclerView de base utilisant le data binding pour mapper les items à un layout.
  */
 abstract class AbstractAdapter<ITEM> constructor(protected var itemList: List<ITEM>,
                                                  private val layoutResId: Int)

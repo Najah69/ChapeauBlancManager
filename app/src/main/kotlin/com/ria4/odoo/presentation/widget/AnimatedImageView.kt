@@ -4,9 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 
-/**
- * Created by glovebx on 16.02.2017.
- */
+/** AppCompatImageView that animates image changes using a scale-and-fade crossfade effect (via AnimatedView). / AppCompatImageView qui anime les changements d'image avec un effet de fondu enchaîné avec zoom (via AnimatedView). */
 
 class AnimatedImageView(context: Context, attrs: AttributeSet? = null)
     : AppCompatImageView(context, attrs), AnimatedView {

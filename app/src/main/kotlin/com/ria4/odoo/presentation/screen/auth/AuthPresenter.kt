@@ -13,35 +13,40 @@ import com.ria4.odoo.presentation.utils.extensions.log
 import javax.inject.Inject
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Authentication presenter — handles server version fetch, OAuth flow, and session init.
+ * Presentateur d'authentification — gere la recuperation de la version serveur, le flux OAuth et l'initialisation de session.
  */
 @PerActivity
 class AuthPresenter @Inject constructor(private val userInteractor: UserInteractor)
     : ApiPresenter<AuthContract.View>(), AuthContract.Presenter {
 
+    /** Shows loading if a previous AUTH request succeeded. / Affiche le chargement si une requete AUTH precedente a reussi. */
     @OnLifecycleEvent(value = Lifecycle.Event.ON_START)
     fun onStart() {
         if (AUTH statusIs SUCCESS)
             view?.showLoading()
     }
 
+    /** Fetches server version then DB list on screen init. / Recupere la version serveur puis la liste des DB a l'initialisation de l'ecran. */
     override fun init() {
-        // 先获取服务端版本
+        // Fetch server version / Recuperer la version du serveur
         fetch(userInteractor.getServerVersion(), COMMON) {
-            // 显示到界面
+            // Display version on screen / Afficher la version a l'ecran
             view?.showVersion(it.serverVersion)
-            // 继续获取db list
+            // Continue fetching DB list / Continuer a recuperer la liste des DB
             fetch(userInteractor.listDb(), COMMON) {it2 ->
                 log(it2)
             }
         }
     }
 
+    /** Starts the OAuth login flow (currently commented out). / Demarre le flux de connexion OAuth (actuellement en commentaire). */
     override fun makeLogin() {
 //        view?.startOAuthIntent(Uri.parse(ApiConstants.LOGIN_OAUTH_URL))
 
     }
 
+    /** Extracts OAuth code from redirect intent for token exchange. / Extrait le code OAuth de l'intent de redirection pour l'echange de token. */
     override fun checkLogin(resultIntent: Intent?) {
         val userCode: String? = resultIntent?.data?.getQueryParameter("code")
 //        userCode?.let {
@@ -52,6 +57,7 @@ class AuthPresenter @Inject constructor(private val userInteractor: UserInteract
 //        }
     }
 
+    /** Shows loading UI when AUTH request starts. / Affiche l'UI de chargement quand la requete AUTH demarre. */
     override fun onRequestStart(requestType: RequestType) {
         super.onRequestStart(requestType)
         if (requestType == AUTH) {
@@ -59,6 +65,7 @@ class AuthPresenter @Inject constructor(private val userInteractor: UserInteract
         }
     }
 
+    /** Hides loading and shows error message on request failure. / Cache le chargement et affiche le message d'erreur en cas d'echec. */
     override fun onRequestError(errorMessage: String?) {
         view?.apply {
             hideLoading()

@@ -3,7 +3,8 @@ package com.ria4.odoo.di.scope
 import javax.inject.Scope
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Dagger scope annotation marking bindings that live for the duration of a single Activity.
+ * / Annotation de portée Dagger pour les liaisons durant le cycle de vie d'une Activity.
  */
 @Scope
 @Retention(AnnotationRetention.RUNTIME)

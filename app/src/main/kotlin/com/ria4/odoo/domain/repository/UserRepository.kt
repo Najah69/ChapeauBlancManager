@@ -7,7 +7,8 @@ import com.ria4.odoo.domain.entity.User
 import io.reactivex.Flowable
 
 /**
- * Created by glovebx on 11.11.2019.
+ * Domain-layer contract for user data operations: authenticate, logout, and cache.
+ * / Contrat du domaine pour les opérations utilisateur : authentification, déconnexion et cache.
  */
 interface UserRepository {
 
