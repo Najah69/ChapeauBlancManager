@@ -88,7 +88,7 @@ ext.rxAndroidVersion = '2.0.1'
 ext.rxBindingVersion = '2.0.0'
 ext.retrofitVersion = '2.3.0'
 ext.loggerVersion = '2.2.0'
-ext.daggerVersion = '2.11'
+ext.daggerVersion = '2.48.1'
 ext.archVersion = '1.1.0'
 ext.glideVersion = '4.9.0'
 ext.instacaptureVersion = '2.0.1'
@@ -97,8 +97,6 @@ ext.permissionsdispatcherVersion = '4.5.0'
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation files('libs/tbs_sdk_thirdapp_v3.3.0.1045_43300_sharewithdownload_withoutGame_obfs_20170605_170212.jar')
     //Base MVP
     implementation project(':baseMVP')
     implementation project(':adapter_core')
@@ -117,9 +115,9 @@ dependencies {
     implementation "com.google.android.material:material:${materialVersion}"
 
     //Database
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    implementation "android.arch.persistence.room:rxjava2:1.0.0"
-    kapt "android.arch.persistence.room:compiler:1.0.0"
+    implementation "androidx.room:room-runtime:2.5.2"
+    implementation "androidx.room:room-rxjava2:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
 
     //RX
     implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
@@ -140,10 +138,8 @@ dependencies {
     //Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //Logging
-    implementation "com.github.armcha:Logger:${loggerVersion}"
-
     implementation "com.github.tarek360:instacapture:${instacaptureVersion}"
+
     implementation "org.jsoup:jsoup:1.11.3"
 
     //Image loading
@@ -162,6 +158,4 @@ dependencies {
 
     implementation 'com.sprylab.android.texturevideoview:texturevideoview:1.2.1'
 
-    implementation "org.permissionsdispatcher:permissionsdispatcher:${permissionsdispatcherVersion}"
-    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:${permissionsdispatcherVersion}"
 }

@@ -28,9 +28,10 @@ class ArcAppBar : AppBarLayout {
     }
 
     override fun dispatchDraw(canvas: Canvas) {
-        if (clipPath != null) {
+        val path = clipPath
+        if (path != null) {
             canvas.save()
-            canvas.clipPath(clipPath)
+            canvas.clipPath(path)
         }
         super.dispatchDraw(canvas)
         canvas.restore()
@@ -59,7 +60,7 @@ class ArcAppBar : AppBarLayout {
             outlineProvider = object : ViewOutlineProvider() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 override fun getOutline(view: View, outline: Outline) {
-                    outline.setConvexPath(clipPath)
+                    clipPath?.let { outline.setConvexPath(it) }
                 }
             }
         }

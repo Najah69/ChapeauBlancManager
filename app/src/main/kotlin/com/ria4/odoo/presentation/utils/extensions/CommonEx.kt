@@ -95,7 +95,7 @@ fun <T> unSafeLazy(initializer: () -> T): Lazy<T> {
 fun Int.isZero(): Boolean = this == 0
 
 fun String.copyToClipboard(context: Context) {
-    (context.getSystemService(Service.CLIPBOARD_SERVICE) as ClipboardManager).primaryClip = ClipData.newPlainText(Config.APP_CLIP_KEY_SELF, this)
+    (context.getSystemService(Service.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(Config.APP_CLIP_KEY_SELF, this))
 }
 
 inline fun <F, S> doubleWith(first: F, second: S, runWith: F.(S) -> Unit) {

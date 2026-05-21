@@ -27,7 +27,7 @@ class Preferences @Inject constructor(app: Application) {
     val isUserLoggedIn
         get() = sharedPreferences.getBoolean(USER_LOGGED_IN, false)
     val token: String
-        get() = sharedPreferences.getString(USER_TOKEN, ApiConstants.TOKEN)
+        get() = sharedPreferences.getString(USER_TOKEN, ApiConstants.TOKEN) ?: ApiConstants.TOKEN
 
     fun saveUserLoggedIn() {
         sharedPreferences.put {

@@ -25,12 +25,11 @@ class Mapper {
 //    }
 
     fun translate(serverVersion: com.ria4.odoo.data.response.ServerVersion): ServerVersion {
-        return serverVersion?.let {
-            ServerVersion(it.serverVersion
-                    , it.serverVersionInfo?.joinToString("-")
-                    , it.serverSerie
-                    , it.protocolVersion)
-        }
+        return ServerVersion(
+                serverVersion.serverVersion,
+                serverVersion.serverVersionInfo?.joinToString("-") ?: "",
+                serverVersion.serverSerie,
+                serverVersion.protocolVersion)
     }
 
 }

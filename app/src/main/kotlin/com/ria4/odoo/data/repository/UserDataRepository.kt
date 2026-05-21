@@ -3,6 +3,7 @@ package com.ria4.odoo.data.repository
 import com.google.gson.Gson
 import com.ria4.odoo.data.cache.MemoryCache
 import com.ria4.odoo.data.mapper.Mapper
+import com.ria4.odoo.data.exception.ApiException
 import com.ria4.odoo.data.network.AuthApiService
 import com.ria4.odoo.data.network.UserApiService
 import com.ria4.odoo.data.pref.Preferences
@@ -20,10 +21,11 @@ class UserDataRepository(
         private val mapper: Mapper) : UserRepository {
 
     override fun authenticate(request: CommonRPCRequest): Flowable<User> = authApiService.authenticate(request).map {
+        if (it !is Number) throw ApiException("Identifiants incorrects")
         val db = request.args[0] as String
         val userName = request.args[1] as String
         val password = request.args[2] as String
-        User(null, db, it, password, userName)
+        User(null, db, it.toInt(), password, userName)
     }
 
     override fun saveToken(token: String?) {

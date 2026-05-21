@@ -4,8 +4,7 @@ import android.os.StrictMode
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.luseen.logger.LogType
-import com.luseen.logger.Logger
+import android.util.Log
 //import com.squareup.leakcanary.LeakCanary
 import com.ria4.odoo.di.component.ApplicationComponent
 import com.ria4.odoo.di.component.DaggerApplicationComponent
@@ -68,12 +67,7 @@ class App : MultiDexApplication() {
     }
 
     private fun initLogger() {
-        Logger.Builder()
-                .isLoggable(BuildConfig.DEBUG)
-                .logType(LogType.ERROR)
-                .tag("Odoo")
-                .setIsKotlin(true)
-                .build()
+        if (BuildConfig.DEBUG) Log.d("CBManager", "App started")
     }
 
     private fun setRxJavaErrorHandler() {

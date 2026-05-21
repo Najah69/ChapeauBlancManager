@@ -61,7 +61,7 @@ class NavigationDrawerView : NavigationView, ItemClickListener {
     }
 
     override fun onSaveInstanceState(): Parcelable {
-        val superState = super.onSaveInstanceState()
+        val superState = super.onSaveInstanceState() ?: return super.onSaveInstanceState()!!
         val state = State(superState)
         state.currentPosition = currentSelectedItem
         return state
@@ -104,9 +104,9 @@ class NavigationDrawerView : NavigationView, ItemClickListener {
 
         constructor(parcelable: Parcelable) : super(parcelable)
 
-        override fun writeToParcel(dest: Parcel?, flags: Int) {
+        override fun writeToParcel(dest: Parcel, flags: Int) {
             super.writeToParcel(dest, flags)
-            dest?.writeInt(currentPosition)
+            dest.writeInt(currentPosition)
         }
 
         companion object CREATOR : Parcelable.Creator<State> {

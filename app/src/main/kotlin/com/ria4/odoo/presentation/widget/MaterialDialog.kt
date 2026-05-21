@@ -84,7 +84,7 @@ class MaterialDialog(context: Context) : Dialog(context, R.style.MaterialDialogS
                     .setInterpolator(AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR)
                     .withLayer()
                     .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
+                        override fun onAnimationEnd(animation: Animator) {
                             this@MaterialDialog.dismiss()
                         }
                     })

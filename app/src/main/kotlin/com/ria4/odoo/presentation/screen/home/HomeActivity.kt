@@ -1,4 +1,4 @@
-package com.ria4.odoo.presentation.screen.home
+﻿package com.ria4.odoo.presentation.screen.home
 
 import android.content.Intent
 import android.graphics.Color
@@ -21,7 +21,9 @@ import com.ria4.odoo.presentation.widget.navigation_view.NavigationItemSelectedL
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import permissions.dispatcher.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import android.content.pm.PackageManager
 import javax.inject.Inject
 import com.ria4.odoo.presentation.widget.navigation_view.NavigationId as Id
 
@@ -29,7 +31,6 @@ import com.ria4.odoo.presentation.widget.navigation_view.NavigationId as Id
  * Main home screen with navigation drawer — manages toolbar state, fragment navigation, user info and permissions.
  * Ecran d'accueil principal avec drawer de navigation — gere l'etat de la toolbar, la navigation entre fragments, les infos utilisateur et les permissions.
  */
-@RuntimePermissions
 class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), HomeContract.View,
         NavigationItemSelectedListener {
 
@@ -67,7 +68,7 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
     }
 
     /** Restores drawer animation state from saved bundle. / Restaure l'etat d'animation du drawer depuis le bundle sauvegarde. */
-    override fun onRestoreInstanceState(savedState: Bundle?) {
+    override fun onRestoreInstanceState(savedState: Bundle) {
         super.onRestoreInstanceState(savedState)
         savedState?.let {
             with(mainView) {
@@ -219,44 +220,28 @@ class HomeActivity : BaseActivity<HomeContract.View, HomeContract.Presenter>(), 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // NOTE: delegate the permission handling to generated method
-        onRequestPermissionsResult(requestCode, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.any { it == PackageManager.PERMISSION_DENIED }) {
+                showToast("Permissions refusees")
+            }
+        }
     }
 
-    @NeedsPermission("android.permission.READ_PHONE_STATE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE")
-    fun permissionNeeds() {
+    private fun requestPermissionsIfNeeded() {
+        val perms = arrayOf(
+            android.Manifest.permission.READ_PHONE_STATE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        val missing = perms.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (missing.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, missing.toTypedArray(), PERMISSION_REQUEST_CODE)
+        }
     }
 
-    @OnShowRationale("android.permission.READ_PHONE_STATE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE")
-    fun permissionShowRationale(request: PermissionRequest) {
-        AlertDialog.Builder(this)
-                .setTitle("提示" as CharSequence)
-                .setMessage("没有所需权限，将无法继续，请点击下方“确定”后同意取得权限。" as CharSequence)
-                .setPositiveButton("确定" as CharSequence) { _, _ -> request.proceed() }
-                .setNegativeButton("取消" as CharSequence) { _, _ -> request.cancel() }
-                .show()
-    }
-
-    @OnPermissionDenied("android.permission.READ_PHONE_STATE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE")
-    fun permissionDenied() {
-        showToast("没有权限，无法继续")
-    }
-
-    @OnNeverAskAgain("android.permission.READ_PHONE_STATE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE")
-    fun permissionNeverAskAgain() {
-        ask4Permission()
-    }
-
-    private fun ask4Permission() {
-        AlertDialog.Builder(this)
-                .setTitle("注意" as CharSequence)
-                .setMessage("因为APP需要权限，请点击下方“设置”按钮后进入权限设置打开所需权限。" as CharSequence)
-                .setNegativeButton("关闭" as CharSequence, null)
-                .setPositiveButton("设置" as CharSequence) { _, _ ->
-                    startActivity(Intent("android.settings.APPLICATION_DETAILS_SETTINGS").also {
-                        it.data = Uri.parse("package:$packageName")
-                    })
-                }
-                .show()
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 100
     }
 }

@@ -10,6 +10,6 @@ interface AuthApiService {
 
     @JsonRPC("call") @POST("jsonrpc")
 //    @Headers("Content-Type: application/json")
-    fun authenticate(@Body request: CommonRPCRequest): Flowable<Int>
+    fun authenticate(@Body request: CommonRPCRequest): Flowable<Any>
 
 }
